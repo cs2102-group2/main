@@ -1,0 +1,46 @@
+.center-vertically {
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+}
+
+button, .button {
+background-color: #dee66c;
+border-color: #dee66c;
+}
+
+body {
+  background: url(../img/mbs.png);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.top-bar, .top-bar-section .has-form, .primary-background {
+background-color: #21E2CE;
+background: #21E2CE;
+}
+
+.primary-background-translucent {
+  background-color: #21E2CE;
+  background-color: rgba(33,226,206,.7);
+}
+
+.white-translucent {
+  background-color: #fff;
+  background-color: rgba(255,255,255,.7);
+}
+
+.full-length {
+  min-height: 90vh;
+}
+
+.smallFont {
+  font-size: 10px;
+  line-height: 1px;
+}
+
+#availCarpool, #userCurrency {
+  font-size: 30px;
+}
