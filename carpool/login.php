@@ -32,7 +32,7 @@
     <div class="large-12"><br></div>
       <form>
         <input type="text" name="username" placeholder="Username" />
-        <input type="text" name="password" placeholder="Password" />
+        <input type="password" name="password" placeholder="Password" />
         <a href="#" class="large-12 tiny button">LOGIN</a>
         <br>
         <small><a href="#" class="right">Forget username/password?</a></small>
