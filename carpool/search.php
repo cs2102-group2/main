@@ -7,9 +7,6 @@
   <link rel="stylesheet" href="./css/customise.css" />
 </head>
 <body>
-
-  <!--Export to php-->
-  <!-- <?php include(./includes/navbar.html); ?> -->
   <nav class="top-bar" data-topbar="" role="navigation">
     <ul class="title-area">
       <li class="name"><h1><a href="#">Bao Bao</a></h1></li>
@@ -133,7 +130,7 @@
               <p class="smallFont">(30 km from your searched departure.)</p>
             </div>
             <div class="large-4 columns">
-            <p>SGD 5.00 / Passanger</p>
+            <p>SGD 5.00 / Passenger</p>
             <a href="#" class="radius button">3 / 4 SEATS AVAILABLE</a>
             </div>
           </div>
