@@ -7,8 +7,6 @@
   <link rel="stylesheet" href="./css/customise.css" />
 </head>
 <body>
-<!--Export to php-->
-<!-- <?php include(./includes/navbar.html); ?> -->
 <nav class="top-bar" data-topbar="" role="navigation">
   <ul class="title-area">
     <li class="name"><h1><a href="#">Bao Bao</a></h1></li>
