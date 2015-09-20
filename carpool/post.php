@@ -2,13 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Post Advertisment</title>
+  <title>Post Advertisement</title>
   <link rel="stylesheet" href="./foundation/css/foundation.css" />
   <link rel="stylesheet" href="./css/customise.css" />
 </head>
 <body>
-  <!--Export to php-->
-  <!-- <?php include(./includes/navbar.html); ?> -->
   <nav class="top-bar" data-topbar="" role="navigation">
     <ul class="title-area">
       <li class="name"><h1><a href="#">Bao Bao</a></h1></li>
@@ -58,7 +56,7 @@
                       <span class="prefix">SGD</span>
                     </div>
                     <div class="large-10 left columns">
-                     <input type="text" name="passangerPayment" placeholder="Price Per Passanger" />
+                     <input type="text" name="passengerPayment" placeholder="Price Per Passenger" />
                    </div>
                  </div>
                </label>
@@ -89,7 +87,7 @@
             <div class="large-6 large-offset-1 columns">
               <label>
                 Additional Information (Maximum 500 characters)
-                <textarea name="additionalInfo" placeholder="Additional information you'd like your passangers to know." style="resize: vertical;"></textarea>
+                <textarea name="additionalInfo" placeholder="Additional information you'd like your passengers to know." style="resize: vertical;"></textarea>
               </label>
             </div>
           </div>

@@ -7,8 +7,6 @@
   <link rel="stylesheet" href="./css/customise.css" />
 </head>
 <body>
-<!--Export to php-->
-<!-- <?php include(./includes/navbar.html); ?> -->
   <nav class="top-bar" data-topbar="" role="navigation">
     <ul class="title-area">
       <li class="name"><h1><a href="#">Bao Bao</a></h1></li>
@@ -29,15 +27,17 @@
   <div class="large-12 center-vertically columns">
     <div class="row">
       <div class="large-6 large-offset-3 columns text-center white-translucent">
-      <h2>Your Account Balance:</p>
+      <h2>Your Account Balance:</h2>
         <p id="userCurrency">$11.00</p>
-        <select class="text-center">
+        <label id="topUpAmount">
+          <select class="text-center">
           <option class="placeholder" selected="selected" value= "" disabled="disabled">Select amount of credits to add</option>
-          <option value="five">+ SGD 5.00</option>
-          <option value="ten">+ SGD 10.00</option>
-          <option value="fifteen">+ SGD 15.00</option>
-          <option value="twenty">+ SGD 20.00</option>
-        </select>
+          <option value="5">+ SGD 5.00</option>
+          <option value="10">+ SGD 10.00</option>
+          <option value="15">+ SGD 15.00</option>
+          <option value="20">+ SGD 20.00</option>
+          </select>
+        </label>
       </div>
     </div>
     <div class="row">

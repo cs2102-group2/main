@@ -7,9 +7,6 @@
   <link rel="stylesheet" href="./css/customise.css" />
 </head>
 <body>
-
-<!--Export to php-->
-<!-- <?php include(./includes/navbar.html); ?> -->
   <nav class="top-bar" data-topbar="" role="navigation">
     <ul class="title-area">
       <li class="name"><h1><a href="#">Bao Bao</a></h1></li>
@@ -60,11 +57,11 @@
       </div>
 
       <div class="row collapse">
-        <!--Query user's pending passangers-->
-        <caption>Pending: Your Passanger(s)</caption>
+        <!--Query user's pending passengers-->
+        <caption>Pending: Your Passenger(s)</caption>
         <table class="large-12 columns">
           <tr>
-            <th>Passanger(s)</th>
+            <th>Passenger(s)</th>
             <th>Contact</th>
             <th>Departure</th>
             <th>Destination</th>
@@ -111,8 +108,8 @@
         <!--Per Comment Queried-->
         <div class="commentHolder">
           <div class="row collapse">
-            <div class="large-12 passanger columns">
-              <a href="#">Passanger's Name</a>
+            <div class="large-12 passenger columns">
+              <a href="#">Passenger's Name</a>
             </div>
             </div>
             <div class="row collapse">
