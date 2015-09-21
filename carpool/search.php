@@ -1,7 +1,7 @@
 <?php
 
 include 'loadsession.php';
-include 'sqlconn.php';
+//include 'sqlconn.php';
 
 ?>
 
@@ -16,7 +16,12 @@ include 'sqlconn.php';
 <body>
 <nav class="top-bar" data-topbar="" role="navigation">
     <ul class="title-area">
-        <li class="name"><h1><a href="#"><?php echo $_SESSION["NAME"] ?></a></h1></li>
+        <li class="name">
+            <h1><a href="#">
+                    <?php getProfileName() ?>
+                </a>
+            </h1>
+        </li>
     </ul>
     <section class="top-bar-section">
         <ul class="right">
@@ -128,14 +133,18 @@ include 'sqlconn.php';
                         $destination = $_POST['destinationSearch'];
                         $date = $_POST['dateSearch'];
 
-                        // Print out result
+                        // TO DO: Add SQL queries and retrieve information from Database
+
+
+
+                        // TO DO: Print out result with a LOOP
                         echo'<div class="row collapse">
                                 <div class="large-4 columns">
                                     <a href="#">David</a>
                                     <br>
                                     <br>
                                     <br>
-                                    <p>(Your FACE HERE)</p>
+                                    <p>(User Profile Picture)</p>
                                 </div>
                                 <div class="large-4 columns">
                                     <!--<p>4 July 2015, 6:00 pm</p>-->

@@ -33,11 +33,20 @@ function redirectToHomePage()
 // ==============================================
 function isUserLoggedIn()
 {
-    if (isset($_SESSION["profileID"]) == false) {
+    if((isset($_SESSION["profileID"]) && isset($_SESSION["profileName"])) == false) {
         return false;
     }
     else {
         return true;
+    }
+}
+
+function getProfileName() {
+    if(isset($_SESSION["profileName"]) == false) {
+        echo "User not logged in";
+    }
+    else {
+        echo $_SESSION["profileName"];
     }
 }
 
