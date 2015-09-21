@@ -8,12 +8,6 @@
 
 session_start();
 
-// Initialize session variables
-while($row = oci_fetch_array($result)) {
-    initSessionVar($row);
-    oci_free_statement($result);
-}
-
 // Initialize Session variables
 function initSessionVar($row)
 {
