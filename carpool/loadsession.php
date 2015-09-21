@@ -17,6 +17,10 @@ function initSessionVar($row)
     $_SESSION["profileCreditCardNo"] = $row[8];
 }
 
+function logOut() {
+    session_unset();
+}
+
 // ==============================================
 // Redirect methods
 // ==============================================

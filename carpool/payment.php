@@ -1,7 +1,7 @@
 <?php
 
 include 'loadsession.php';
-include 'sqlconn.php';
+//include 'sqlconn.php';
 
 $resultMsg = "";
 
@@ -92,7 +92,17 @@ if(isset($_POST['makePayment'])) {
             <li class="divider"></li>
             <li class="has-form show-for-large-up"><a href="#" class="button">OFFER RIDE</a></li>
             <li class="divider"></li>
-            <li class="has-form show-for-large-up"><a href="#" class="button">LOGIN</a></li>
+            <li class="has-form show-for-large-up">
+                <?php
+                if(isset($_SESSION["profileID"])) {
+                    echo '<a href="loggedout.php" class="button">LOGGED OUT</a>';
+                }
+                else {
+                    echo '<a href="login.php" class="button">LOGIN</a>';
+                }
+                ?>
+            </li>
+
         </ul>
     </section>
 </nav>
