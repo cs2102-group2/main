@@ -1,7 +1,29 @@
 <?php
 
 include 'loadsession.php';
-include 'sqlconn.php';
+//include 'sqlconn.php';
+
+if(isset($_POST['submit'])) {
+    if (isset($_POST['departureLocation']) && isset($_POST['destinationLocation']) && isset($_POST['departureTime'])
+        && isset($_POST['passengerPayment'])&& isset($_POST['carType'])&& isset($_POST['numOfSeats'])) {
+
+        $departure = $_POST['departureLocation'];
+        $destination = $_POST['destinationLocation'];
+        $time = $_POST['departureTime'];
+        $price = $_POST['passengerPayment'];
+        $car = $_POST['carType'];
+        $numOfSeats = $_POST['numOfSeats'];
+
+        //================================================================
+        //Can be used for testing if the information received is correct:
+        //$msg = "Departing from ".$departure." to ".$destination." at ".$time." for $".$price." by vehicle ".$car." with ".$numOfSeats." seats available";
+        //echo "<script type='text/javascript'>alert('$msg');</script>";
+        //================================================================
+
+        // TO DO: Add SQL queries to add information into database
+
+    }
+}
 
 ?>
 
@@ -42,7 +64,7 @@ include 'sqlconn.php';
     <div class="large-6 large-offset-3 white-translucent full-length columns">
         <div class="large-12 columns">
             <div class="row">
-                <form>
+                <form method="post" action="post.php">
                     <label>
                         Route
                         <div class="row journeyPoint">
@@ -79,24 +101,26 @@ include 'sqlconn.php';
                                 <div class="row collapse">
                                     <div class="large-12 left columns">
                                         <!--Query to Get Car-->
-                                        <select class="text-center">
+                                        <select name="carType" class="text-center">
                                             <option class="placeholder" selected="selected" value= "" disabled="disabled">Choose your car:</option>
-                                            <option value="firstCar">BMW</option>
-                                            <option value="secondCar">Toy Car</option>
+                                            <option value="BMW">BMW</option>
+                                            <option value="Toyota">Toyota</option>
+                                            <option value="Honda">Honda</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row collapse">
                                     <div class="large-12 left columns">
                                         <!--Query to Get Car Seats-->
-                                        <select class="text-center">
+                                        <select name="numOfSeats" class="text-center">
                                             <option class="placeholder" selected="selected" value= "" disabled="disabled">Seats Available:</option>
-                                            <option value="firstCar">1</option>
-                                            <option value="secondCar">2</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
                                         </select>
                                     </div>
                                 </div>
                             </label>
+
                         </div>
                         <div class="large-6 large-offset-1 columns">
                             <label>
@@ -105,7 +129,7 @@ include 'sqlconn.php';
                             </label>
                         </div>
                     </div>
-                    <a href="#" class="large-12 columns tiny button">SUBMIT</a>
+                    <input type="submit" name="submit" class="large-12 columns tiny button" value="SUBMIT"/>
                 </form>
             </div>
         </div>
