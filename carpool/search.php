@@ -1,7 +1,7 @@
 <?php
 
 include 'loadsession.php';
-//include 'sqlconn.php';
+include 'sqlconn.php';
 
 ?>
 
@@ -27,11 +27,11 @@ include 'loadsession.php';
         <ul class="right">
             <li class="has-form show-for-large-up"><a href="#" class="button">$</a></li>
             <li class="divider"></li>
-            <li class="has-form show-for-large-up"><a href="#" class="button">FIND RIDE</a></li>
+            <li class="has-form show-for-large-up"><a href="search.php" class="button">FIND RIDE</a></li>
             <li class="divider"></li>
             <li class="has-form show-for-large-up"><a href="#" class="button">OFFER RIDE</a></li>
             <li class="divider"></li>
-            <li class="has-form show-for-large-up"><a href="#" class="button">LOGIN</a></li>
+            <li class="has-form show-for-large-up"><a href="login.php" class="button">LOGIN</a></li>
         </ul>
     </section>
 </nav>
@@ -133,14 +133,25 @@ include 'loadsession.php';
                         $destination = $_POST['destinationSearch'];
                         $date = $_POST['dateSearch'];
 
-                        // TO DO: Add SQL queries and retrieve information from Database
+                        $query = "SELECT *
+                                  FROM ADVERTISEMENT
+                                  WHERE START_LOCATION='".$departure."'
+                                  AND END_LOCATION='".$destination."'
+                                  AND TRIP_DATE ='".$date."'";
 
+                        $result = oci_parse($connect, $query);
 
+                        $check = oci_execute($result, OCI_DEFAULT);
+                        if($check == false) {
+                            redirectToSearchPage();
+                            exit;
+                        }
 
-                        // TO DO: Print out result with a LOOP
-                        echo'<div class="row collapse">
+                        // Print out results from Database
+                        while($row = oci_fetch_array($result)) {
+                            echo'<div class="row collapse">
                                 <div class="large-4 columns">
-                                    <a href="#">David</a>
+                                    <a href="#">'.$row['CREATOR'].'</a>
                                     <br>
                                     <br>
                                     <br>
@@ -148,17 +159,18 @@ include 'loadsession.php';
                                 </div>
                                 <div class="large-4 columns">
                                     <!--<p>4 July 2015, 6:00 pm</p>-->
-                                    <p>'.$date.', 6:00 pm</p>
-                                    <p>Departure: '.$departure.'</p>
+                                    <p>'.$row['TRIP_DATE'].', '.$row['TIME'].'</p>
+                                    <p>Departure: '.$row['START_LOCATION'].'</p>
                                     <p class="smallFont">(30 km from your searched departure.)</p>
-                                    <p>Destination: '.$destination.'</p>
+                                    <p>Destination: '.$row['END_LOCATION'].'</p>
                                     <p class="smallFont">(30 km from your searched departure.)</p>
                                 </div>
                                 <div class="large-4 columns">
-                                    <p>SGD 5.00 / Passenger</p>
-                                    <a href="#" class="radius button">3 / 4 SEATS AVAILABLE</a>
+                                    <p>SGD '.$row['RIDING_COST'].' / Passenger</p>
+                                    <input type="submit" value="'.$row['ADID'].'" class="radius button">'.$row['SEATS_AVAILABLE'].' SEATS AVAILABLE</a>
                                 </div>
                             </div>';
+                        }
                     }
                 }
                 ?>
