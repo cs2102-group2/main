@@ -1,7 +1,7 @@
 <?php
 
 include 'loadsession.php';
-//include 'sqlconn.php';
+include 'sqlconn.php';
 
 $resultMsg = "";
 
