@@ -1,7 +1,7 @@
 <?php
 
 include 'loadsession.php';
-//include 'sqlconn.php';
+include 'sqlconn.php';
 
 if(isset($_POST['submit'])) {
     if (isset($_POST['departureLocation']) && isset($_POST['destinationLocation']) && isset($_POST['departureTime'])
