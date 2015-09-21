@@ -15,7 +15,7 @@ if(isset($_POST['submit'])) {
         $numOfSeats = $_POST['numOfSeats'];
 
         //================================================================
-        //Can be used for testing if the information received is correct:
+        //Create a pop-out message to double-check all information to be added:
         //$msg = "Departing from ".$departure." to ".$destination." at ".$time." for $".$price." by vehicle ".$car." with ".$numOfSeats." seats available";
         //echo "<script type='text/javascript'>alert('$msg');</script>";
         //================================================================
