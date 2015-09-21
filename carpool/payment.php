@@ -1,7 +1,9 @@
 <?php
 
 include 'loadsession.php';
-include 'sqlconn.php';
+//include 'sqlconn.php';
+
+$resultMsg = "";
 
 if(isset($_POST['makePayment'])) {
     if(isset($_POST['topUpAmount'])) {
@@ -13,11 +15,51 @@ if(isset($_POST['makePayment'])) {
         //echo "<script type='text/javascript'>alert('$msg');</script>";
         //================================================================
 
-        // To Do: Add SQL query to update col 'ACCBALANCE' in table 'PROFILE'
 
 
+        // ============================================================================
         // Simulate a Credit Card Deduction
+        // ============================================================================
 
+
+
+
+        // ============================================================================
+        // SQL query for updating col 'ACCBALANCE' in table 'PROFILE' with new value
+        // ============================================================================
+
+        $query = "UPDATE PROFILE SET ACCBALANCE = ACCBALANCE + ".$topUpAmount." WHERE ID='".$_SESSION["profileID"]."'";
+
+        //  Store result of query
+        $result = oci_parse($connect, $query);
+
+        // Check if query fails
+        $check = oci_execute($result, OCI_DEFAULT);
+        if($check == false) {
+            $resultMsg = "Your top up failed. Please try again";
+            exit;
+        }
+
+        // ============================================================================
+        // Find the updated Account Balance
+        // ============================================================================
+
+        $query = "SELECT ACCBALANCE FROM PROFILE WHERE Id='".$_SESSION["profileID"]."'";
+        $result = oci_parse($connect, $query);
+        $check = oci_execute($result, OCI_DEFAULT);
+        if($check == false) {
+            redirectToPaymentPage();
+            exit;
+        }
+
+        // Update session variable
+        while($row = oci_fetch_array($result)) {
+            $_SESSION["profileAccountBalance"] = $row[0];
+        }
+
+        oci_free_statement($result);
+        $resultMsg = "You have successfully top-up";
+        exit;
     }
 }
 
@@ -72,13 +114,14 @@ if(isset($_POST['makePayment'])) {
                         <option value="20">+ SGD 20.00</option>
                     </select>
                 </label>
-
             </div>
         </div>
         <div class="row">
             <div class="large-6 large-offset-3 columns white-translucent">
                 <input type="submit" name="makePayment" class="large-12 small button" value="MAKE PAYMENT" />
+                <h5><?php echo $resultMsg ?></h5>
             </div>
+
         </div>
     </form>
 </div>

@@ -8,6 +8,12 @@
 
 session_start();
 
+// Initialize session variables
+while($row = oci_fetch_array($result)) {
+    initSessionVar($row);
+    oci_free_statement($result);
+}
+
 // Initialize Session variables
 function initSessionVar($row)
 {
@@ -20,26 +26,26 @@ function initSessionVar($row)
 // ==============================================
 // Redirect methods
 // ==============================================
-function redirectToLoginPage()
-{
+function redirectToLoginPage() {
     echo "<script type='text/javascript'> document.location = 'login.php'; </script>";
 }
 
-function redirectToSearchPage()
-{
+function redirectToPaymentPage() {
+    echo "<script type='text/javascript'> document.location = 'payment.php'; </script>";
+}
+
+function redirectToSearchPage() {
     echo "<script type='text/javascript'> document.location = 'search.php'; </script>";
 }
 
-function redirectToHomePage()
-{
+function redirectToHomePage() {
     echo "<script type='text/javascript'> document.location = 'index.php'; </script>";
 }
 
 // ==============================================
 // Check methods
 // ==============================================
-function isUserLoggedIn()
-{
+function isUserLoggedIn() {
     if((isset($_SESSION["profileID"]) && isset($_SESSION["profileName"])) == false) {
         return false;
     }
