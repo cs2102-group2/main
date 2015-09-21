@@ -13,6 +13,8 @@ function initSessionVar($row)
 {
     $_SESSION["profileID"] = $row[0];
     $_SESSION["profileName"] = $row[3];
+    $_SESSION["profileAccountBalance"] = $row[11];
+    $_SESSION["profileCreditCardNo"] = $row[8];
 }
 
 // ==============================================
@@ -47,12 +49,24 @@ function isUserLoggedIn()
     }
 }
 
+// ==============================================
+// Setters and Getters methods
+// ==============================================
 function getProfileName() {
     if(isset($_SESSION["profileName"]) == false) {
         echo "User not logged in";
     }
     else {
         echo $_SESSION["profileName"];
+    }
+}
+
+function getProfileAccountBalance() {
+    if(isset($_SESSION["profileAccountBalance"]) == false) {
+        echo "Account is not logged in";
+    }
+    else {
+        echo $_SESSION["profileAccountBalance"];
     }
 }
 
