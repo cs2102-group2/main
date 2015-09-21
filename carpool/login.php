@@ -1,35 +1,37 @@
 <?php
 
-// Start session to store variables across pages
-session_start();
+include 'loadsession.php';
+include 'sqlconn.php'; // Connect to database
 
-// Connect to database
-include 'sqlconn.php';
+// If user is already logged in
+if(isUserLoggedIn() == true) {
+    redirectToHomePage();
+}
 
 // Attempt to log in
-if(isset($_GET['login'])) {
-    if(isset($_GET['username']) && isset($_GET['password'])) {
-        $userName = $_GET['username'];
-        $pw = $_GET['password'];
+if(isset($_POST['login'])) {
+    if(isset($_POST['username']) && isset($_POST['password'])) {
+        $userName = $_POST['username'];
+        $pw = $_POST['password'];
 
-        // Query database to check whether username and password exist and matches
+        // Find username and password
         $query = "SELECT * FROM PROFILE WHERE Email='".$userName."' AND Password='".$pw."'";
 
-        //  Store result of select query
+        //  Store result of query
         $result = oci_parse($connect, $query);
 
         // Check if query fails
         $check = oci_execute($result, OCI_DEFAULT);
         if($check == false) {
-            die();
+            redirectToLoginPage();
+            exit;
         }
 
         // Initialize session variables
         while($row = oci_fetch_array($result)) {
-            $_SESSION["USERID"] = $row[0];
-            $_SESSION["NAME"] = $row[3];
+            initSessionVar($row);
             oci_free_statement($result);
-            echo "<script type='text/javascript'> document.location = 'index.php'; </script>";
+            redirectToHomePage();
             exit;
         }
     }
@@ -69,7 +71,7 @@ if(isset($_GET['login'])) {
 <div class="large-12 center-vertically">
     <div class="large-3 large-offset-8 columns primary-background-translucent">
         <div class="large-12"><br></div>
-        <form>
+        <form method="post" action="login.php">
             <input type="text" name="username" placeholder="Username" />
             <input type="password" name="password" placeholder="Password" />
             <input type="submit" name="login" class="large-12 tiny button" value="LOGIN" />
