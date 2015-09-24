@@ -3,26 +3,28 @@
 include 'libaries.php';
 include 'sqlconn.php';
 
+$submitMsg = "";
+
 if(isset($_POST['submit'])) {
-    if (isset($_POST['departureLocation']) && isset($_POST['destinationLocation']) && isset($_POST['departureTime'])
+    if (isset($_POST['departureLocation']) && isset($_POST['destinationLocation']) && isset($_POST['departureDate'])
         && isset($_POST['passengerPayment'])&& isset($_POST['carType'])&& isset($_POST['numOfSeats'])) {
 
         $startlocation = $_POST['departureLocation'];
         $endlocation = $_POST['destinationLocation'];
-        $date = $_POST['departureTime'];
-        $price = $_POST['passengerPayment'];
+        $date = $_POST['departureDate'];
+        $price = intval($_POST['passengerPayment']);
         $car = $_POST['carType'];
-        $numOfSeats = $_POST['numOfSeats'];
+        $numOfSeats = intval($_POST['numOfSeats']);
 
         //================================================================
         //Create a pop-out message to double-check all information to be added:
-        //$msg = "Departing from ".$departure." to ".$destination." at ".$time." for $".$price." by vehicle ".$car." with ".$numOfSeats." seats available";
-        //echo "<script type='text/javascript'>alert('$msg');</script>";
+        $msg = "Departing from ".$startlocation." to ".$endlocation." at ".$time." for $".$price." by vehicle ".$car." with ".$numOfSeats." seats available";
+        echo "<script type='text/javascript'>alert('$msg');</script>";
         //================================================================
 
         // TO DO: Add SQL queries to add information into database
         $query = "INSERT INTO TRIPS(START_LOCATION, END_LOCATION, RIDING_COST,SEATS_AVAILABLE, TRIP_DATE, FIRSTNAME, PROFILEID)
-                  VALUES('".$startlocation."','".$endlocation."',".$price.",".$numOfSeats.",'".$date."','".$_SESSION["profileName"]."',".$_SESSION["profileID"]." );";
+                  VALUES('".$startlocation."','".$endlocation."','".$price."','".$numOfSeats."','".$date."','".$_SESSION["profileName"]."','".$_SESSION["profileID"]."')";
 
         $result = oci_parse($connect, $query);
 
@@ -30,6 +32,9 @@ if(isset($_POST['submit'])) {
         if($check == false) {
             redirectToHomePage();
             exit;
+        }else {
+            $submitMsg = "Successfully posted";
+            oci_commit($connect);
         }
 
     }
@@ -135,6 +140,8 @@ if(isset($_POST['submit'])) {
                                             <option class="placeholder" selected="selected" value= "" disabled="disabled">Seats Available:</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
                                         </select>
                                     </div>
                                 </div>
@@ -149,6 +156,7 @@ if(isset($_POST['submit'])) {
                         </div>
                     </div>
                     <input type="submit" name="submit" class="large-12 columns tiny button" value="SUBMIT"/>
+                    <h5><?php echo $submitMsg ?></h5>
                 </form>
             </div>
         </div>
