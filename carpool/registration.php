@@ -55,11 +55,11 @@ if(isset($_POST['confirm'])) {
     </ul>
     <section class="top-bar-section">
         <ul class="right">
-            <li class="has-form show-for-large-up"><a href="#" class="button">$</a></li>
+            <li class="has-form show-for-large-up"><a href="payment.php" class="button">$</a></li>
             <li class="divider"></li>
-            <li class="has-form show-for-large-up"><a href="#" class="button">FIND RIDE</a></li>
+            <li class="has-form show-for-large-up"><a href="search.php" class="button">FIND RIDE</a></li>
             <li class="divider"></li>
-            <li class="has-form show-for-large-up"><a href="#" class="button">OFFER RIDE</a></li>
+            <li class="has-form show-for-large-up"><a href="post.php" class="button">OFFER RIDE</a></li>
             <li class="divider"></li>
             <li class="has-form show-for-large-up">
                 <?php

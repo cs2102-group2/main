@@ -57,11 +57,11 @@ if(isset($_POST['login'])) {
     </ul>
     <section class="top-bar-section">
         <ul class="right">
-            <li class="has-form show-for-large-up"><a href="#" class="button">$</a></li>
+            <li class="has-form show-for-large-up"><a href="payment.php" class="button">$</a></li>
             <li class="divider"></li>
-            <li class="has-form show-for-large-up"><a href="#" class="button">FIND RIDE</a></li>
+            <li class="has-form show-for-large-up"><a href="search.php" class="button">FIND RIDE</a></li>
             <li class="divider"></li>
-            <li class="has-form show-for-large-up"><a href="#" class="button">OFFER RIDE</a></li>
+            <li class="has-form show-for-large-up"><a href="post.php" class="button">OFFER RIDE</a></li>
             <li class="divider"></li>
             <li class="has-form show-for-large-up">
                 <?php
@@ -88,7 +88,7 @@ if(isset($_POST['login'])) {
             <small><a href="#" class="right">Forget username/password?</a></small>
             <br>
             <br>
-            <a href="#" class="large-4 tiny button right">REGISTER</a>
+            <a href="registration.php" class="large-4 tiny button right">REGISTER</a>
         </form>
     </div>
 </div>

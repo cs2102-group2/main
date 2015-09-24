@@ -7,9 +7,9 @@ if(isset($_POST['submit'])) {
     if (isset($_POST['departureLocation']) && isset($_POST['destinationLocation']) && isset($_POST['departureTime'])
         && isset($_POST['passengerPayment'])&& isset($_POST['carType'])&& isset($_POST['numOfSeats'])) {
 
-        $departure = $_POST['departureLocation'];
-        $destination = $_POST['destinationLocation'];
-        $time = $_POST['departureTime'];
+        $startlocation = $_POST['departureLocation'];
+        $endlocation = $_POST['destinationLocation'];
+        $date = $_POST['departureTime'];
         $price = $_POST['passengerPayment'];
         $car = $_POST['carType'];
         $numOfSeats = $_POST['numOfSeats'];
@@ -21,6 +21,16 @@ if(isset($_POST['submit'])) {
         //================================================================
 
         // TO DO: Add SQL queries to add information into database
+        $query = "INSERT INTO TRIPS(START_LOCATION, END_LOCATION, RIDING_COST,SEATS_AVAILABLE, TRIP_DATE, FIRSTNAME, PROFILEID)
+                  VALUES('".$startlocation."','".$endlocation."',".$price.",".$numOfSeats.",'".$date."','".$_SESSION["profileName"]."',".$_SESSION["profileID"]." );";
+
+        $result = oci_parse($connect, $query);
+
+        $check = oci_execute($result, OCI_DEFAULT);
+        if($check == false) {
+            redirectToHomePage();
+            exit;
+        }
 
     }
 }
@@ -49,11 +59,11 @@ if(isset($_POST['submit'])) {
     </ul>
     <section class="top-bar-section">
         <ul class="right">
-            <li class="has-form show-for-large-up"><a href="#" class="button">$</a></li>
+            <li class="has-form show-for-large-up"><a href="payment.php" class="button">$</a></li>
             <li class="divider"></li>
-            <li class="has-form show-for-large-up"><a href="#" class="button">FIND RIDE</a></li>
+            <li class="has-form show-for-large-up"><a href="search.php" class="button">FIND RIDE</a></li>
             <li class="divider"></li>
-            <li class="has-form show-for-large-up"><a href="#" class="button">OFFER RIDE</a></li>
+            <li class="has-form show-for-large-up"><a href="post.php" class="button">OFFER RIDE</a></li>
             <li class="divider"></li>
             <li class="has-form show-for-large-up">
                 <?php
@@ -81,7 +91,7 @@ if(isset($_POST['submit'])) {
                                 <input type="text" name="departureLocation" placeholder="Departure" />
                             </div>
                             <div class="large-4 columns">
-                                <input type="text" name="departureTime" placeholder="Departure Time" />
+                                <input type="text" name="departureDate" placeholder="Departure Date" />
                             </div>
                         </div>
                         <div class="row journeyPoint">

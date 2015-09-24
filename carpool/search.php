@@ -25,11 +25,11 @@ include 'sqlconn.php';
     </ul>
     <section class="top-bar-section">
         <ul class="right">
-            <li class="has-form show-for-large-up"><a href="#" class="button">$</a></li>
+            <li class="has-form show-for-large-up"><a href="payment.php" class="button">$</a></li>
             <li class="divider"></li>
             <li class="has-form show-for-large-up"><a href="search.php" class="button">FIND RIDE</a></li>
             <li class="divider"></li>
-            <li class="has-form show-for-large-up"><a href="#" class="button">OFFER RIDE</a></li>
+            <li class="has-form show-for-large-up"><a href="post.php" class="button">OFFER RIDE</a></li>
             <li class="divider"></li>
             <li class="has-form show-for-large-up">
                 <?php
@@ -141,13 +141,6 @@ include 'sqlconn.php';
                         $departure = $_POST['departureSearch'];
                         $destination = $_POST['destinationSearch'];
                         $date = $_POST['dateSearch'];
-
-                        /*$query = "SELECT *
-                                  FROM ADVERTISEMENT, PROFILE
-                                  WHERE START_LOCATION='".$departure."'
-                                  AND END_LOCATION='".$destination."'
-                                  AND TRIP_DATE='".$date."'
-                                  AND ID = CREATOR";*/
 
                         $query = "SELECT *
                                   FROM TRIPS

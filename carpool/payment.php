@@ -28,7 +28,7 @@ if(isset($_POST['makePayment'])) {
         // SQL query for updating col 'ACCBALANCE' in table 'PROFILE' with new value
         // ============================================================================
 
-        $query = "UPDATE PROFILE SET ACCBALANCE = ACCBALANCE + ".$topUpAmount." WHERE ID='".$_SESSION["profileID"]."'";
+        $query = "UPDATE PROFILE SET ACCBALANCE = ACCBALANCE +".$topUpAmount." WHERE PROFILEID=".$_SESSION["profileID"];
 
         //  Store result of query
         $result = oci_parse($connect, $query);
@@ -44,7 +44,7 @@ if(isset($_POST['makePayment'])) {
         // Find the updated Account Balance
         // ============================================================================
 
-        $query = "SELECT ACCBALANCE FROM PROFILE WHERE Id='".$_SESSION["profileID"]."'";
+        $query = "SELECT ACCBALANCE FROM PROFILE WHERE PROFILEID =".$_SESSION["profileID"];
         $result = oci_parse($connect, $query);
         $check = oci_execute($result, OCI_DEFAULT);
         if($check == false) {
@@ -86,11 +86,11 @@ if(isset($_POST['makePayment'])) {
     </ul>
     <section class="top-bar-section">
         <ul class="right">
-            <li class="has-form show-for-large-up"><a href="#" class="button">$</a></li>
+            <li class="has-form show-for-large-up"><a href="payment.php" class="button">$</a></li>
             <li class="divider"></li>
-            <li class="has-form show-for-large-up"><a href="#" class="button">FIND RIDE</a></li>
+            <li class="has-form show-for-large-up"><a href="search.php" class="button">FIND RIDE</a></li>
             <li class="divider"></li>
-            <li class="has-form show-for-large-up"><a href="#" class="button">OFFER RIDE</a></li>
+            <li class="has-form show-for-large-up"><a href="post.php" class="button">OFFER RIDE</a></li>
             <li class="divider"></li>
             <li class="has-form show-for-large-up">
                 <?php
