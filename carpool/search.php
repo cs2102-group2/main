@@ -138,8 +138,8 @@ include 'sqlconn.php';
                 <?php
                 if(isset($_POST['search'])) {
                     if(isset($_POST['departureSearch']) && isset($_POST['destinationSearch']) && isset($_POST['dateSearch'])) {
-                        $departure = $_POST['departureSearch'];
-                        $destination = $_POST['destinationSearch'];
+                        $departure = strtoupper($_POST['departureSearch']);
+                        $destination = strtoupper($_POST['destinationSearch']);
                         $date = $_POST['dateSearch'];
 
                         $query = "SELECT *

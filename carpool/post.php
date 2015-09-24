@@ -9,11 +9,11 @@ if(isset($_POST['submit'])) {
     if (isset($_POST['departureLocation']) && isset($_POST['destinationLocation']) && isset($_POST['departureDate'])
         && isset($_POST['passengerPayment'])&& isset($_POST['carType'])&& isset($_POST['numOfSeats'])) {
 
-        $startlocation = $_POST['departureLocation'];
-        $endlocation = $_POST['destinationLocation'];
+        $startlocation = strtoupper($_POST['departureLocation']);
+        $endlocation = strtoupper($_POST['destinationLocation']);
         $date = $_POST['departureDate'];
         $price = intval($_POST['passengerPayment']);
-        $car = $_POST['carType'];
+        $car = strtoupper($_POST['carType']);
         $numOfSeats = intval($_POST['numOfSeats']);
 
         //================================================================
