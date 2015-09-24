@@ -18,8 +18,8 @@ if(isset($_POST['submit'])) {
 
         //================================================================
         //Create a pop-out message to double-check all information to be added:
-        $msg = "Departing from ".$startlocation." to ".$endlocation." at ".$time." for $".$price." by vehicle ".$car." with ".$numOfSeats." seats available";
-        echo "<script type='text/javascript'>alert('$msg');</script>";
+        //$msg = "Departing from ".$startlocation." to ".$endlocation." at ".$time." for $".$price." by vehicle ".$car." with ".$numOfSeats." seats available";
+        //echo "<script type='text/javascript'>alert('$msg');</script>";
         //================================================================
 
         // TO DO: Add SQL queries to add information into database
