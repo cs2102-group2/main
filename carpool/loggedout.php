@@ -6,6 +6,6 @@
  * Time: 2:19 PM
  */
 
-include 'loadsession.php';
+include 'libaries.php';
 logOut();
 redirectToLoginPage();
