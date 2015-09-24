@@ -38,6 +38,8 @@ if(isset($_POST['makePayment'])) {
         if($check == false) {
             $resultMsg = "Your top up failed. Please try again";
             exit();
+        }else{
+            oci_commit($connect);
         }
 
         // ============================================================================
@@ -58,7 +60,6 @@ if(isset($_POST['makePayment'])) {
             $_SESSION["profileAccountBalance"] = $rw[0];
             oci_free_statement($result);
             $resultMsg = "You have successfully top-up";
-            oci_commit($connect);
         }
     }
 }
