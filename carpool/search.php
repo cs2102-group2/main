@@ -3,6 +3,8 @@
 include 'libaries.php';
 include 'sqlconn.php';
 
+$countMsg = "";
+
 ?>
 
 <!DOCTYPE html>
@@ -141,6 +143,30 @@ include 'sqlconn.php';
                         $departure = strtoupper($_POST['departureSearch']);
                         $destination = strtoupper($_POST['destinationSearch']);
                         $date = $_POST['dateSearch'];
+
+                        $query = "SELECT COUNT(*)
+                                  FROM TRIPS
+                                  WHERE START_LOCATION = '".$departure."'
+                                  AND END_LOCATION = '".$destination."'
+                                  AND TRIP_DATE = '".$date."'";
+
+                        $result = oci_parse($connect, $query);
+
+                        $check = oci_execute($result, OCI_DEFAULT);
+                        if($check == false) {
+                            redirectToSearchPage();
+                            exit;
+                        }
+
+                        while($row = oci_fetch_array($result)) {
+                            $countMsg = "About ".$row[0]." results found";
+
+                            echo'<div class="row collapse">
+                                <div class="large-4 columns">
+                                    <p>'.$countMsg.'</p>
+                                </div>
+                            </div>';
+                        }
 
                         $query = "SELECT *
                                   FROM TRIPS
