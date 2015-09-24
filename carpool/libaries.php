@@ -69,7 +69,7 @@ function getProfileAccountBalance() {
         echo "Account is not logged in";
     }
     else {
-        echo $_SESSION["profileAccountBalance"];
+        echo "$ ".$_SESSION["profileAccountBalance"];
     }
 }
 
