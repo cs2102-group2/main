@@ -129,7 +129,7 @@ if(isset($_POST['makePayment'])) {
         </div>
         <div class="row">
             <div class="large-6 large-offset-3 columns white-translucent">
-                <input type="submit" name="makePayment" class="large-12 small button" value="MAKE PAYMENT" />
+                <input type="submit" name="makePayment" class="large-12 small button" value="DEDUCT FROM CREDITCARD" />
                 <h5><?php echo $resultMsg ?></h5>
             </div>
 
