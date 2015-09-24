@@ -142,11 +142,18 @@ include 'sqlconn.php';
                         $destination = $_POST['destinationSearch'];
                         $date = $_POST['dateSearch'];
 
-                        $query = "SELECT *
-                                  FROM ADVERTISEMENT
+                        /*$query = "SELECT *
+                                  FROM ADVERTISEMENT, PROFILE
                                   WHERE START_LOCATION='".$departure."'
                                   AND END_LOCATION='".$destination."'
-                                  AND TRIP_DATE ='".$date."'";
+                                  AND TRIP_DATE='".$date."'
+                                  AND ID = CREATOR";*/
+
+                        $query = "SELECT *
+                                  FROM TRIPS
+                                  WHERE START_LOCATION = '".$departure."'
+                                  AND END_LOCATION = '".$destination."'
+                                  AND TRIP_DATE = '".$date."'";
 
                         $result = oci_parse($connect, $query);
 
@@ -160,11 +167,11 @@ include 'sqlconn.php';
                         while($row = oci_fetch_array($result)) {
                             echo'<div class="row collapse">
                                 <div class="large-4 columns">
-                                    <a href="#">'.$row['CREATOR'].'</a>
+                                    <a href="#">'.$row['FIRSTNAME'].'</a>
                                     <br>
                                     <br>
                                     <br>
-                                    <p>(User Profile Picture)</p>
+                                    <p>(Profile Picture)</p>
                                 </div>
                                 <div class="large-4 columns">
                                     <!--<p>4 July 2015, 6:00 pm</p>-->
@@ -176,12 +183,13 @@ include 'sqlconn.php';
                                 </div>
                                 <div class="large-4 columns">
                                     <p>SGD '.$row['RIDING_COST'].' / Passenger</p>
-                                    <input type="submit" value="'.$row['ADID'].'" class="radius button">'.$row['SEATS_AVAILABLE'].' SEATS AVAILABLE</a>
+                                    <button type="submit" value="'.$row['TRIPNO'].'" class="radius button">'.$row['SEATS_AVAILABLE'].' SEATS AVAILABLE</button>
                                 </div>
                             </div>';
                         }
                     }
                 }
+                exit();
                 ?>
             </div>
             <hr>
