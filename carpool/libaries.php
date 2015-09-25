@@ -11,10 +11,10 @@ session_start();
 // Initialize Session variables
 function initSessionVar($row)
 {
-    $_SESSION["profileID"] = $row[0];
-    $_SESSION["profileName"] = $row[3];
-    $_SESSION["profileAccountBalance"] = $row[11];
-    $_SESSION["profileCreditCardNo"] = $row[8];
+    $_SESSION["profileID"] = $row['PROFILEID'];
+    $_SESSION["profileName"] = $row['FIRSTNAME'];
+    $_SESSION["profileAccountBalance"] = $row['ACCBALANCE'];
+    $_SESSION["profileCreditCardNo"] = $row['CREDITCARDNUM'];
 }
 
 function logOut() {
