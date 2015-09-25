@@ -61,7 +61,7 @@ $countMsg = "";
             </div>
             <hr>
             <div class="large-12 right columns">
-                <p>SORT BY:</p>
+                <p>ORDER BY:</p>
             </div>
             <div class="large-12 columns">
                 <ul class="button-group round even-3">
