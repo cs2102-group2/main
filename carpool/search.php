@@ -168,7 +168,7 @@ $countMsg = "";
                             </div>';
                         }
 
-                        $query = "SELECT *
+                        $query = "SELECT TRIPNO, START_LOCATION, END_LOCATION, FIRSTNAME, RIDING_COST, SEATS_AVAILABLE, TRIP_DATE
                                   FROM TRIPS
                                   WHERE START_LOCATION = '".$departure."'
                                   AND END_LOCATION = '".$destination."'
