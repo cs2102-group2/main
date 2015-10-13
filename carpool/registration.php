@@ -84,7 +84,7 @@ if(isset($_POST['confirm'])) {
                     <div class="large-6 columns">
                         <p><u>Profile Information</u></p>
                         <input type="text" name="username" placeholder="Username" />
-                        <input type="text" name="password" placeholder="Password" />
+                        <input type="password" name="password" placeholder="Password" />
                         <input type="text" name="firstname" placeholder="First Name" />
                         <input type="text" name="lastname" placeholder="Last Name" />
                         <input type="text" name="dob" placeholder="Birth Date" />
