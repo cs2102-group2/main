@@ -7,31 +7,10 @@
     <link rel="stylesheet" href="./css/customise.css" />
 </head>
 <body>
-    <nav class="top-bar" data-topbar="" role="navigation">
-        <ul class="title-area">
-            <li class="name">
-                <h1>
-                    <a href="#">
-                        <!--Get admin name-->
-                    </a>
-                </h1>
-            </li>
-        </ul>
-        <section class="top-bar-section">
-            <ul class="right">
-                <li class="has-form show-for-large-up"><a href="payment.php" class="button">$</a></li>
-                <li class="divider"></li>
-                <li class="has-form show-for-large-up"><a href="search.php" class="button">FIND RIDE</a></li>
-                <li class="divider"></li>
-                <li class="has-form show-for-large-up"><a href="post.php" class="button">OFFER RIDE</a></li>
-                <li class="divider"></li>
-                <li class="has-form show-for-large-up">
-                    <!--Login or Logout-->
-                </li>
-            </ul>
-        </section>
-    </nav>
 
+<?php
+include 'includes/navbar.php';
+?>
     <div class="large-12 columns">
         <div class="large-8 left large-offset-2 columns">
             <h3>Profiles</h3>

@@ -74,40 +74,11 @@ if(isset($_POST['makePayment'])) {
     <link rel="stylesheet" href="./css/customise.css" />
 </head>
 <body>
-<nav class="top-bar" data-topbar="" role="navigation">
-    <ul class="title-area">
-        <ul class="title-area">
-            <li class="name">
-                <h1><a href="#">
-                        <?php getProfileName() ?>
-                    </a>
-                </h1>
-            </li>
-        </ul>
-    </ul>
-    <section class="top-bar-section">
-        <ul class="right">
-            <li class="has-form show-for-large-up"><a href="payment.php" class="button">$</a></li>
-            <li class="divider"></li>
-            <li class="has-form show-for-large-up"><a href="search.php" class="button">FIND RIDE</a></li>
-            <li class="divider"></li>
-            <li class="has-form show-for-large-up"><a href="post.php" class="button">OFFER RIDE</a></li>
-            <li class="divider"></li>
-            <li class="has-form show-for-large-up">
-                <?php
-                if(isset($_SESSION["profileID"])) {
-                    echo '<a href="loggedout.php" class="button">LOGGED OUT</a>';
-                }
-                else {
-                    echo '<a href="login.php" class="button">LOGIN</a>';
-                }
-                ?>
-            </li>
 
-        </ul>
-    </section>
-</nav>
-<!-- End include -->
+<?php
+include 'includes/navbar.php';
+?>
+
 <div class="large-12 center-vertically columns">
     <form method="post" action="payment.php">
         <div class="row">

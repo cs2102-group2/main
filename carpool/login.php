@@ -51,31 +51,9 @@ if(isset($_POST['login'])) {
 
 <body>
 
-<nav class="top-bar" data-topbar="" role="navigation">
-    <ul class="title-area">
-        <li class="name"><h1><a href="#">Welcome</a></h1></li>
-    </ul>
-    <section class="top-bar-section">
-        <ul class="right">
-            <li class="has-form show-for-large-up"><a href="payment.php" class="button">$</a></li>
-            <li class="divider"></li>
-            <li class="has-form show-for-large-up"><a href="search.php" class="button">FIND RIDE</a></li>
-            <li class="divider"></li>
-            <li class="has-form show-for-large-up"><a href="post.php" class="button">OFFER RIDE</a></li>
-            <li class="divider"></li>
-            <li class="has-form show-for-large-up">
-                <?php
-                if(isset($_SESSION["profileID"])) {
-                    echo '<a href="loggedout.php" class="button">LOGGED OUT</a>';
-                }
-                else {
-                    echo '<a href="login.php" class="button">LOGIN</a>';
-                }
-                ?>
-            </li>
-        </ul>
-    </section>
-</nav>
+<?php
+include 'includes/navbar.php';
+?>
 
 <div class="large-12 center-vertically">
     <div class="large-3 large-offset-8 columns primary-background-translucent">
