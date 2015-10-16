@@ -1,4 +1,7 @@
-CREATE TABLE Profile 
+/*********************************************************
+ * SQL: Data Definition Language (DDL)
+ *********************************************************/
+CREATE TABLE Profile
 (
 ProfileID int NOT NULL,
 Email varchar(255) UNIQUE NOT NULL,
@@ -11,34 +14,27 @@ DateOfBirth date NOT NULL,
 CreditCardNum char(32),
 CardSecurityCode char(16),
 CardHolderName varchar(255),
-AccBalance DECIMAL(38,2),
+AccBalance DECIMAL(38,2) DEFAULT 0,
 PRIMARY KEY (ProfileID)
 );
 
-CREATE TABLE Bookings 
+CREATE TABLE Vehicle
 (
-BNO int,
-PROFILEID int,
-TRIPID int,
-RECEIPTNO char(256),
-PRIMARY KEY(BNO),
-FOREIGN KEY (TRIPID) REFERENCES TRIPS(TRIPNO),
-FOREIGN KEY (PROFILEID) REFERENCES PROFILE(PROFILEID)
-);
-
-CREATE TABLE Vehicle 
-(
-PLATENO char(16),
+PLATENO char(16) NOT NULL,
 PROFILEID int,
 MODEL varchar(256),
 NUMOFSEATS int,
-PRIMARY KEY(PLATENO),
-FOREIGN KEY (PROFILEID) REFERENCES PROFILE(PROFILEID)
+PRIMARY KEY (PLATENO),
+CONSTRAINT profileid_foreignkey
+  FOREIGN KEY (PROFILEID) REFERENCES PROFILE(PROFILEID)
+  ON DELETE CASCADE,
+CONSTRAINT initial_seat_number
+  CHECK (NUMOFSEATS > 0)
 );
 
-CREATE TABLE Trips 
+CREATE TABLE Trips
 (
-TRIPNO int,
+TRIPNO int NOT NULL,
 START_LOCATION VARCHAR(255) NOT NULL,
 END_LOCATION VARCHAR(255) NOT NULL,
 RIDING_COST INT NOT NULL,
@@ -46,12 +42,113 @@ SEATS_AVAILABLE INT NOT NULL,
 TRIP_DATE DATE NOT NULL,
 FIRSTNAME VARCHAR(255),
 PROFILEID INT,
-PRIMARY KEY(TRIPNO),
+PRIMARY KEY (TRIPNO),
+FOREIGN KEY (PROFILEID) REFERENCES PROFILE(PROFILEID),
+CONSTRAINT riding_cost_check
+  CHECK (RIDING_COST >= 0)
+);
+
+CREATE TABLE Bookings
+(
+BNO int NOT NULL,
+PROFILEID int,
+TRIPID int,
+RECEIPTNO char(256),
+PRIMARY KEY (BNO),
+FOREIGN KEY (TRIPID) REFERENCES TRIPS(TRIPNO),
 FOREIGN KEY (PROFILEID) REFERENCES PROFILE(PROFILEID)
 );
 
-INSERT INTO TRIPS (Email, Password, Firstname, LastName, PostalCode, ContactNum, DateOfBirth, CreditCardNum, CardSecurityCode,CardHolderName, AccBalance) 
-VALUES ('lai.munkeat@gmail.com', '123', 'MunKeat', 'Lai', '145678', '912345678', '01-JAN-92', '789456159', '364', 'Lai MunKeat', 0);
+/*********************************************************
+ * Corresponding sequences defined for the above tables'
+ * primary key
+ *********************************************************/
+CREATE SEQUENCE seq_profile
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1
+NOMAXVALUE
+NOCYCLE
+CACHE 10;
 
-INSERT INTO PROFILE (Email, Password, Firstname, LastName, PostalCode, ContactNum, DateOfBirth, CreditCardNum, CardSecurityCode,CardHolderName, AccBalance) 
-VALUES ('johntan@gmail.com', '123', 'John', 'Tan', '121278', '9133414245', '01-MAR-85', '1144145369', '417', 'John Tan', 0);
+CREATE SEQUENCE seq_trips
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1
+NOMAXVALUE
+NOCYCLE
+CACHE 10;
+
+CREATE SEQUENCE seq_bookings
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1
+NOMAXVALUE
+NOCYCLE
+CACHE 10;
+
+/*********************************************************
+ * Triggers defined to allow automatic input of
+ * primary keys in the table above
+ *
+ * Note: Forward slash on a new line after each trigger
+ * executes the command in buffer
+ * Source: http://stackoverflow.com/questions/7233210/is-there-a-way-to-create-multiple-triggers-in-one-script
+ *********************************************************/
+CREATE OR REPLACE TRIGGER trigger_profile
+  BEFORE INSERT ON Profile
+  FOR EACH ROW
+BEGIN
+  :new.profileid := seq_profile.nextval;
+END;
+/
+
+CREATE OR REPLACE TRIGGER trigger_bookings
+  BEFORE INSERT ON Bookings
+  FOR EACH ROW
+BEGIN
+  :new.bno := seq_bookings.nextval;
+END;
+/
+
+CREATE OR REPLACE TRIGGER trigger_trips
+  BEFORE INSERT ON Trips
+  FOR EACH ROW
+BEGIN
+  :new.tripno := seq_trips.nextval;
+END;
+/
+
+/*********************************************************
+ * Trigger: Ensure that date of birth entered is neither in
+ * the future, nor too far in the past.
+ *
+ * Note: CHECK is not used as CHECK constraints must be deterministic.
+ * As SYSDATE is inherently non-deterministic, TRIGGER are used instead.
+ * Source: http://stackoverflow.com/questions/8424900/check-constraint-on-date-of-birth
+ *
+ * Note: Error numbers are defined between -20,000 and -20,999.
+ *********************************************************/
+CREATE OR REPLACE TRIGGER trigger_birth_date_checks
+  BEFORE INSERT OR UPDATE ON Profile
+  FOR EACH ROW
+DECLARE
+  yearsInMonths CONSTANT INTEGER := 216;  -- 18 years calculated as months
+BEGIN
+  IF ( :new.dateofbirth < DATE '1900-01-01' OR :new.dateofbirth > SYSDATE ) THEN
+    RAISE_APPLICATION_ERROR( -20001, 'User birthdate must be later than Jan 1, 1900 and earlier than today!' );
+  ELSIF ( ADD_MONTHS( :new.dateofbirth, yearsInMonths) > TRUNC(SYSDATE)) THEN
+    RAISE_APPLICATION_ERROR(-20002,'User is under 18!');
+  END IF;
+END;
+/
+
+CREATE OR REPLACE TRIGGER trigger_tripdate_check
+  BEFORE INSERT OR UPDATE ON Trips
+  FOR EACH ROW
+BEGIN
+  IF ( :new.trip_date < SYSDATE ) THEN
+    RAISE_APPLICATION_ERROR( -20003, 'Trip date cannot be in the past!' );
+  END IF;
+END;
+/
