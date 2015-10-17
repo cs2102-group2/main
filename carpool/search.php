@@ -18,6 +18,7 @@ $countMsg = "";
     include 'includes/datepicker.html';
     ?>
     <script src="js/sortDiv.js" ></script>
+
 </head>
 <body>
 
@@ -66,7 +67,7 @@ include 'includes/navbar.php';
                 <p>ORDER BY:</p>
             </div>
             <div class="large-12 columns">
-                <ul class="button-group round even-3">
+                <ul class="button-group radius even-3">
                     <li><a href="#" class="tiny button">PROXIMITY</a></li>
                     <li><a href="#" class="tiny button">TIME</a></li>
                     <li><a href="#" class="tiny button"  onclick="sortCost(); return false;">PRICE</a></li>
@@ -78,7 +79,7 @@ include 'includes/navbar.php';
             <div class="large-12 right columns">
                 <!--Set Time Range too!-->
                 <label>Time (08:00 - 12:00)
-                    <div class="range-slider round" data-slider>
+                    <div class="range-slider radius" data-slider>
                         <span class="range-slider-handle" role="slider" tabindex="0"></span>
                         <span class="range-slider-active-segment"></span>
                         <input type="hidden">
@@ -89,14 +90,14 @@ include 'includes/navbar.php';
             <div class="large-12 right columns">
                 <!--Set Distance Range too!-->
                 <label>Distance - Departure (2.3km - 40km)
-                    <div class="range-slider round" data-slider>
+                    <div class="range-slider radius" data-slider>
                         <span class="range-slider-handle" role="slider" tabindex="0"></span>
                         <span class="range-slider-active-segment"></span>
                         <input type="hidden">
                     </div>
                 </label>
                 <label>Distance - Destination (2.3km - 40km)
-                    <div class="range-slider round" data-slider>
+                    <div class="range-slider radius" data-slider>
                         <span class="range-slider-handle" role="slider" tabindex="0"></span>
                         <span class="range-slider-active-segment"></span>
                         <input type="hidden">
@@ -107,8 +108,8 @@ include 'includes/navbar.php';
             <div class="large-12 right columns">
                 <!--Set Price Range too!-->
                 <label>Price (SGD 2.30 - SGD 5.00)
-                    <div class="range-slider round" data-slider>
-                        <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                    <div class="range-slider radius" data-slider>
+                        <span id="priceFilter" class="range-slider-handle" role="slider" tabindex="0"></span>
                         <span class="range-slider-active-segment"></span>
                         <input type="hidden">
                     </div>
@@ -192,5 +193,11 @@ include 'includes/navbar.php';
         </div>
     </div>
 </div>
+
+  <script src="js/foundation/foundation.js"></script>
+  <script src="js/foundation/foundation.slider.js"></script>
+  <script>
+    $(document).foundation('slider', 'reflow');
+  </script>
 </body>
 </html>
