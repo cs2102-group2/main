@@ -17,6 +17,7 @@ $countMsg = "";
     <?php
     include 'includes/datepicker.html';
     ?>
+    <script src="js/sortDiv.js" ></script>
 </head>
 <body>
 
@@ -68,7 +69,7 @@ include 'includes/navbar.php';
                 <ul class="button-group round even-3">
                     <li><a href="#" class="tiny button">PROXIMITY</a></li>
                     <li><a href="#" class="tiny button">TIME</a></li>
-                    <li><a href="#" class="tiny button">PRICE</a></li>
+                    <li><a href="#" class="tiny button"  onclick="sortCost(); return false;">PRICE</a></li>
                 </ul>
             </div>
             <div class="large-12 right columns">
@@ -159,7 +160,7 @@ include 'includes/navbar.php';
 
                         // Print out results from Database
                         while($row = oci_fetch_array($result)) {
-                            echo'<div class="row collapse">
+                            echo'<div class="row collapse" data-cost="'.$row['RIDING_COST'].'" data-start="'.$row['START_LOCATION'].'" data-end="'.$row['END_LOCATION'].'">
                                 <div class="large-4 columns">
                                     <a href="#">'.$row['FIRSTNAME'].'</a>
                                     <br>
@@ -178,9 +179,10 @@ include 'includes/navbar.php';
                                     <p>SGD '.$row['RIDING_COST'].' / Passenger</p>
                                     <button type="submit" value="'.$row['TRIPNO'].'" class="radius button">'.$row['SEATS_AVAILABLE'].' SEATS AVAILABLE</button>
                                 </div>
+                                <hr>
+                                <hr>
                             </div>
-                            <hr>
-                            <hr>';
+                            ';
                         }
                     }
                 }
