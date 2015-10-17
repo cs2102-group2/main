@@ -182,7 +182,6 @@ include 'includes/navbarAdmin.php';
     }
 
     oci_free_statement($result);
-    exit();
     ?>
 </table>
 </div>

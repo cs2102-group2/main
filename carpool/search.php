@@ -186,7 +186,6 @@ include 'includes/navbar.php';
                         }
                     }
                 }
-                exit();
                 ?>
             </div>
             <hr>
