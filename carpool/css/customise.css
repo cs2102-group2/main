@@ -44,3 +44,7 @@ background: #21E2CE;
 #availCarpool, #userCurrency {
   font-size: 30px;
 }
+
+.white-font {
+  color: white;
+}
