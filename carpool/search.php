@@ -36,7 +36,7 @@ include 'includes/navbar.php';
                     if(isset($_POST['departureSearch']) && isset($_POST['destinationSearch']) && isset($_POST['dateSearch'])) {
                         $departure = strtoupper($_POST['departureSearch']);
                         $destination = strtoupper($_POST['destinationSearch']);
-                        $date = $_POST['datepicker'];
+                        $date = $_POST['dateSearch'];
 
                         $query = "SELECT COUNT(*)
                                   FROM TRIPS
