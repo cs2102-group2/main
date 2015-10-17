@@ -3,6 +3,10 @@
 include 'libaries.php';
 include 'sqlconn.php';
 
+if(isUserLoggedIn() == false) {
+    redirectToLoginPage();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -12,6 +16,8 @@ include 'sqlconn.php';
     <title>My Profile</title>
     <link rel="stylesheet" href="./foundation/css/foundation.css" />
     <link rel="stylesheet" href="./css/customise.css" />
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 </head>
 <body>
 
@@ -23,37 +29,60 @@ include 'includes/navbar.php';
     <div class="large-8 large-offset-2 columns">
 
         <div class="row collapse">
-            <!--Get the username-->
             <div class="username large-12 columns">
-                Bobby
+                <h2 class="white-font"><?php getProfileName() ?></h2>
             </div>
-
         </div>
 
+        <!--Query user's car-->
         <div class="row collapse">
-            <!--Query user's car-->
-            <caption>Your Car(s)</caption>
             <table class="large-12 columns">
+            <caption class="white-font"><b>Your Car(s)</b></caption>
                 <tr>
                     <th>Car Plate Number</th>
                     <th>Model</th>
                     <th>Seats Available</th>
                     <th>Actions</th>
                 </tr>
-                <tr>
-                    <td>99999FF</td>
-                    <td>No Model</td>
-                    <td>100</td>
-                    <td>iconedit</td>
-                    <td>icondelete</td>
-                </tr>
+                <?php
+
+                $userID = getProfileID();
+
+                $query = "SELECT PLATENO, MODEL, NUMOFSEATS FROM VEHICLE WHERE PROFILEID=".$userID."";
+
+                $result = oci_parse($connect, $query);
+                $check = oci_execute($result, OCI_DEFAULT);
+
+                if($check == true) {
+                    while($row = oci_fetch_array($result)) {
+                        echo'<tr>
+                                <td>'.$row['PLATENO'].'</td>
+                                <td>'.$row['MODEL'].'</td>
+                                <td>'.$row['NUMOFSEATS'].'</td>
+                                <td><span title="Edit" class="ui-icon ui-icon-pencil"></span></td>
+                                <td><span title="Delete" class="ui-icon ui-icon-trash"></span></td>
+                            </tr>';
+                    }
+                }
+
+                echo'<tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><span title="Add" class="ui-icon ui-icon-plus"></span></td>
+                    <td></td>
+                </tr>';
+
+                oci_free_statement($result);
+
+                ?>
             </table>
         </div>
 
         <div class="row collapse">
             <!--Query user's pending passengers-->
-            <caption>Pending: Your Passenger(s)</caption>
             <table class="large-12 columns">
+            <caption class="white-font"><b>Pending: Your Passenger(s)</b></caption>
                 <tr>
                     <th>Passenger(s)</th>
                     <th>Contact</th>
@@ -73,8 +102,8 @@ include 'includes/navbar.php';
 
         <div class="row collapse">
             <!--Query user's pending ride-->
-            <caption>Pending: Your Rides(s)</caption>
             <table class="large-12 columns">
+            <caption class="white-font"><b>Pending: Your Rides(s)</b></caption>
                 <tr>
                     <th>Driver(s)</th>
                     <th>Contact</th>
@@ -96,10 +125,10 @@ include 'includes/navbar.php';
             </table>
         </div>
 
+        <!--
         <div class="row collapse">
             <caption>What Are Others Saying?</caption>
 
-            <!--Per Comment Queried-->
             <div class="commentHolder">
                 <div class="row collapse">
                     <div class="large-12 passenger columns">
@@ -107,15 +136,14 @@ include 'includes/navbar.php';
                     </div>
                 </div>
                 <div class="row collapse">
-                    <!--Comments goes here-->
                     <p class="large-9 columns">HELLO</p>
                     <div class="rating large-3 columns">
-                        <!--Rating Goes here-->
                     </div>
                 </div>
             </div>
-
         </div>
+        -->
+
     </div>
 </div>
 

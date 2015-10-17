@@ -2,7 +2,7 @@
     <ul class="title-area">
         <li class="name">
             <h1>
-                <a href="#">
+                <a href="profile.php">
                     <?php getProfileName() ?>
                 </a>
             </h1>

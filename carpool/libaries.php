@@ -73,4 +73,13 @@ function getProfileAccountBalance() {
     }
 }
 
+function getProfileID() {
+    if(isset($_SESSION["profileID"]) == false) {
+        echo "User not logged in";
+    }
+    else {
+        return $_SESSION["profileID"];
+    }
+}
+
 ?>
