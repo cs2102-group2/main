@@ -41,6 +41,9 @@ if(isset($_POST['confirm'])) {
     <title>Registration</title>
     <link rel="stylesheet" href="./foundation/css/foundation.css" />
     <link rel="stylesheet" href="./css/customise.css" />
+    <?php
+    include 'includes/datepicker.html';
+    ?>
 </head>
 <body>
 
@@ -56,13 +59,13 @@ include 'includes/navbar.php';
                     <p>REGISTRATION</p>
                     <div class="large-6 columns">
                         <p><u>Profile Information</u></p>
-                        <input type="text" name="username" placeholder="Username" />
+                        <input type="text" name="username" placeholder="Email Address" />
                         <input type="password" name="password" placeholder="Password" />
                         <input type="text" name="firstname" placeholder="First Name" />
                         <input type="text" name="lastname" placeholder="Last Name" />
-                        <input type="text" name="dob" placeholder="Birth Date" />
+                        <input type="text" name="dob" placeholder="Birth Date" class="datepicker"/>
                         <input type="text" name="contactnum" placeholder="Contact Number" />
-                        <input type="text" name="address" placeholder="Address" />
+                        <input type="text" name="address" placeholder="Address (Postal Code)" />
                     </div>
                     <div class="large-6 columns">
                         <p><u>Payment Information</u></p>

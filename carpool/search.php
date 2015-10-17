@@ -14,6 +14,9 @@ $countMsg = "";
     <title>Search</title>
     <link rel="stylesheet" href="./foundation/css/foundation.css" />
     <link rel="stylesheet" href="./css/customise.css" />
+    <?php
+    include 'includes/datepicker.html';
+    ?>
 </head>
 <body>
 
@@ -25,11 +28,36 @@ include 'includes/navbar.php';
     <br>
     <br>
     <div class="row">
-        <!--Search-->
         <div class="large-4 primary-background-translucent full-length columns">
-            <!--Query number of result-->
             <div class="large-12 text-center columns">
-                <p id="availCarpool">100</p>
+            <br>
+            <?php
+            if(isset($_POST['search'])) {
+                    if(isset($_POST['departureSearch']) && isset($_POST['destinationSearch']) && isset($_POST['dateSearch'])) {
+                        $departure = strtoupper($_POST['departureSearch']);
+                        $destination = strtoupper($_POST['destinationSearch']);
+                        $date = $_POST['datepicker'];
+
+                        $query = "SELECT COUNT(*)
+                                  FROM TRIPS
+                                  WHERE START_LOCATION = '".$departure."'
+                                  AND END_LOCATION = '".$destination."'
+                                  AND TRIP_DATE = '".$date."'";
+
+                        $result = oci_parse($connect, $query);
+
+                        $check = oci_execute($result, OCI_DEFAULT);
+                        if($check == false) {
+                            redirectToSearchPage();
+                            exit;
+                        }
+
+                        while($row = oci_fetch_array($result)) {
+                            echo'<p id="availCarpool">'.$row[0].'</p>';
+                        }
+                    }
+                }
+            ?>
                 <p>Available Carpool(s)</p>
             </div>
             <hr>
@@ -38,7 +66,7 @@ include 'includes/navbar.php';
             </div>
             <div class="large-12 columns">
                 <ul class="button-group round even-3">
-                    <li><a href="#" class="tiny button ">PROXIMITY</a></li>
+                    <li><a href="#" class="tiny button">PROXIMITY</a></li>
                     <li><a href="#" class="tiny button">TIME</a></li>
                     <li><a href="#" class="tiny button">PRICE</a></li>
                 </ul>
@@ -98,7 +126,7 @@ include 'includes/navbar.php';
                         <input type="text" name="destinationSearch" placeholder="Destination" />
                     </div>
                     <div class="large-2 columns">
-                        <input type="text" name="dateSearch" placeholder="Date" />
+                        <input type="text" name="datepicker" placeholder="Date" class="datepicker"/>
                     </div>
                     <div class="large-2 columns">
                         <input type="submit" id="search" name="search" class="tiny button" value="SEARCH" />
@@ -107,8 +135,6 @@ include 'includes/navbar.php';
             </form>
             <hr>
             <hr>
-            <!--Set Users Query Here too!-->
-
             <div class="user large-12 right columns">
                 <?php
                 if(isset($_POST['search'])) {
@@ -116,30 +142,6 @@ include 'includes/navbar.php';
                         $departure = strtoupper($_POST['departureSearch']);
                         $destination = strtoupper($_POST['destinationSearch']);
                         $date = $_POST['dateSearch'];
-
-                        $query = "SELECT COUNT(*)
-                                  FROM TRIPS
-                                  WHERE START_LOCATION = '".$departure."'
-                                  AND END_LOCATION = '".$destination."'
-                                  AND TRIP_DATE = '".$date."'";
-
-                        $result = oci_parse($connect, $query);
-
-                        $check = oci_execute($result, OCI_DEFAULT);
-                        if($check == false) {
-                            redirectToSearchPage();
-                            exit;
-                        }
-
-                        while($row = oci_fetch_array($result)) {
-                            $countMsg = "About ".$row[0]." results found";
-
-                            echo'<div class="row collapse">
-                                <div class="large-4 columns">
-                                    <p>'.$countMsg.'</p>
-                                </div>
-                            </div>';
-                        }
 
                         $query = "SELECT TRIPNO, START_LOCATION, END_LOCATION, FIRSTNAME, RIDING_COST, SEATS_AVAILABLE, TRIP_DATE
                                   FROM TRIPS
@@ -162,22 +164,23 @@ include 'includes/navbar.php';
                                     <a href="#">'.$row['FIRSTNAME'].'</a>
                                     <br>
                                     <br>
-                                    <br>
                                     <p>(Profile Picture)</p>
                                 </div>
                                 <div class="large-4 columns">
                                     <!--<p>4 July 2015, 6:00 pm</p>-->
                                     <p>'.$row['TRIP_DATE'].', '.$row['TIME'].'</p>
                                     <p>Departure: '.$row['START_LOCATION'].'</p>
-                                    <p class="smallFont">(30 km from your searched departure.)</p>
+                                    <!--<p class="smallFont">(30 km from your searched departure.)</p>-->
                                     <p>Destination: '.$row['END_LOCATION'].'</p>
-                                    <p class="smallFont">(30 km from your searched departure.)</p>
+                                    <!--<p class="smallFont">(30 km from your searched departure.)</p>-->
                                 </div>
                                 <div class="large-4 columns">
                                     <p>SGD '.$row['RIDING_COST'].' / Passenger</p>
                                     <button type="submit" value="'.$row['TRIPNO'].'" class="radius button">'.$row['SEATS_AVAILABLE'].' SEATS AVAILABLE</button>
                                 </div>
-                            </div>';
+                            </div>
+                            <hr>
+                            <hr>';
                         }
                     }
                 }

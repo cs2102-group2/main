@@ -49,6 +49,9 @@ if(isset($_POST['submit'])) {
     <title>Post Advertisement</title>
     <link rel="stylesheet" href="./foundation/css/foundation.css" />
     <link rel="stylesheet" href="./css/customise.css" />
+    <?php
+    include 'includes/datepicker.html';
+    ?>
 </head>
 <body>
 
@@ -68,7 +71,7 @@ include 'includes/navbar.php';
                                 <input type="text" name="departureLocation" placeholder="Departure" />
                             </div>
                             <div class="large-4 columns">
-                                <input type="text" name="departureDate" placeholder="Departure Date" />
+                                <input type="text" name="departureDate" placeholder="Departure Date" class="datepicker"/>
                             </div>
                         </div>
                         <div class="row journeyPoint">

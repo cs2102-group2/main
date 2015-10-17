@@ -9,6 +9,7 @@ if(isUserLoggedIn() == false) {
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +17,9 @@ if(isUserLoggedIn() == false) {
     <title>Homepage</title>
     <link rel="stylesheet" href="./foundation/css/foundation.css" />
     <link rel="stylesheet" href="./css/customise.css" />
+    <?php
+    include 'includes/datepicker.html';
+    ?>
 </head>
 <body>
 
@@ -33,7 +37,7 @@ include 'includes/navbar.php';
                 <input type="text" id ="destinationSearch" name="destinationSearch" placeholder="Destination"/>
             </div>
             <div class="large-2 columns">
-                <input type="text" id ="dateSearch" name="dateSearch" placeholder="Date"/>
+                <input type="text" id ="dateSearch" name="dateSearch" placeholder="Date" class="datepicker"/>
             </div>
             <div class="large-2 columns">
                 <input type="submit" id="search" name="search" class="tiny button" value="SEARCH" />

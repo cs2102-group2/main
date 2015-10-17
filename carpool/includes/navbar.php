@@ -19,7 +19,7 @@
             <li class="has-form show-for-large-up">
                 <?php
                 if(isset($_SESSION["profileID"])) {
-                    echo '<a href="loggedout.php" class="button">LOGGED OUT</a>';
+                    echo '<a href="loggedout.php" class="button">LOG OUT</a>';
                 }
                 else {
                     echo '<a href="login.php" class="button">LOGIN</a>';
