@@ -126,7 +126,7 @@ include 'includes/navbar.php';
                         <input type="text" name="destinationSearch" placeholder="Destination" />
                     </div>
                     <div class="large-2 columns">
-                        <input type="text" name="datepicker" placeholder="Date" class="datepicker"/>
+                        <input type="text" name="dateSearch" placeholder="Date" class="datepicker"/>
                     </div>
                     <div class="large-2 columns">
                         <input type="submit" id="search" name="search" class="tiny button" value="SEARCH" />
