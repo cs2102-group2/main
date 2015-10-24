@@ -9,3 +9,4 @@
 include 'libaries.php';
 logOut();
 redirectToLoginPage();
+?>

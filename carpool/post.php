@@ -3,6 +3,11 @@
 include 'libaries.php';
 include 'sqlconn.php';
 
+//Visitors not logged in should not be allowed to post
+if(isUserLoggedIn() == false) {
+    redirectToLoginPage();
+}
+
 $submitMsg = "";
 
 if(isset($_POST['submit'])) {
