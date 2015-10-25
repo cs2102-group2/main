@@ -15,7 +15,9 @@ CreditCardNum char(32) NOT NULL,
 CardSecurityCode char(16) NOT NULL,
 CardHolderName varchar(255) NOT NULL,
 AccBalance DECIMAL(38,2) DEFAULT 0,
-PRIMARY KEY (ProfileID)
+PRIMARY KEY (ProfileID),
+CONSTRAINT email_formatting
+  CHECK(REGEXP_LIKE(Email, '^\S+@\S+$'))  -- Using RegEx, or regular expression to filter obviously invalid email
 );
 
 CREATE TABLE Vehicle
