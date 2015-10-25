@@ -3,35 +3,6 @@
 include 'libaries.php';
 include 'sqlconn.php';
 
-if(isset($_POST['confirm'])) {
-    if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['firstname'])
-        && isset($_POST['lastname'])&& isset($_POST['dob'])&& isset($_POST['contactnum'])
-        && isset($_POST['address']) && isset($_POST['creditcardno']) && isset($_POST['securitycode'])
-        && isset($_POST['cardholderName'])) {
-
-        $userName = $_POST['username'];
-        $password = $_POST['password'];
-        $firstName = $_POST['firstname'];
-        $lastName = $_POST['lastname'];
-        $dateOfBirth = $_POST['dob'];
-        $contactNum = $_POST['contactnum'];
-        $address = $_POST['address'];
-        $creditCardNum = $_POST['creditcardno'];
-        $securityCode = $_POST['securitycode'];
-        $cardHolderName = $_POST['cardholderName'];
-
-        //================================================================
-        //Create a pop-out message to double-check all information to be added:
-        //$msg = " ".$userName." ".$password." ".$firstName." ".$lastName." ".$dateOfBirth." "
-        //    .$contactNum." ".$address." ".$creditCardNum." ".$securityCode." ".$cardHolderName;
-        //echo "<script type='text/javascript'>alert('$msg');</script>";
-        //================================================================
-
-        // TO DO: Add SQL queries to add information into database
-
-    }
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +15,8 @@ if(isset($_POST['confirm'])) {
     <?php
     include 'includes/datepicker.html';
     ?>
+
+    <script src="js/registration.js"></script>
 </head>
 <body>
 
@@ -52,37 +25,39 @@ include 'includes/navbar.php';
 ?>
 
 <div class="large-12 columns">
-    <form method = post action="registration.php">
-        <div class="row  primary-background-translucent">
-            <div class="large-8 columns">
-                <div class="row">
-                    <p>REGISTRATION</p>
-                    <div class="large-6 columns">
-                        <p><u>Profile Information</u></p>
-                        <input type="text" name="username" placeholder="Email Address" />
-                        <input type="password" name="password" placeholder="Password" />
-                        <input type="text" name="firstname" placeholder="First Name" />
-                        <input type="text" name="lastname" placeholder="Last Name" />
-                        <input type="text" name="dob" placeholder="Birth Date" class="datepicker"/>
-                        <input type="text" name="contactnum" placeholder="Contact Number" />
-                        <input type="text" name="address" placeholder="Address (Postal Code)" />
-                    </div>
-                    <div class="large-6 columns">
-                        <p><u>Payment Information</u></p>
-                        <input type="text" name="creditcardno" placeholder="Credit Card Number" />
-                        <input type="text" name="securitycode" placeholder="Security Code" />
-                        <input type="text" name="cardholderName" placeholder="Card Holder Name" />
-                        <input type="submit" id="confirm" name="confirm" class="tiny button" value="CONFIRM" />
-                    </div>
+    <div class="row  primary-background-translucent">
+        <div class="large-8 columns">
+            <div class="row">
+                <p>REGISTRATION</p>
+                <div class="large-6 columns">
+                    <p><u>Profile Information</u></p>
+                    <input type="text" id="idusername" name="username" placeholder="Email Address" />
+                    <input type="password" id="idpassword" name="password" placeholder="Password" />
+                    <input type="text" id="idfirstname" name="firstname" placeholder="First Name" />
+                    <input type="text" id="idlastname" name="lastname" placeholder="Last Name" />
+                    <input type="text" id="iddob" name="dob" placeholder="Birth Date" class="datepicker"/>
+                    <input type="text" id="idcontactnum" name="contactnum" placeholder="Contact Number" />
+                    <input type="text" id="idaddress" name="address" placeholder="Address (Postal Code)" />
+                </div>
+                <div class="large-6 columns">
+                    <p><u>Payment Information</u></p>
+                    <input type="text" id="idcreditcardno" name="creditcardno" placeholder="Credit Card Number" />
+                    <input type="text" id="idsecurityno" name="securitycode" placeholder="Security Code" />
+                    <input type="text" id="idcardholder" name="cardholderName" placeholder="Card Holder Name" />
+                    <input type="submit" id="confirm" name="confirm" class="tiny button" value="SUBMIT" />
                 </div>
             </div>
-            <div class="large-4 columns">
-                <p>Some privacy and disclaimer text here.</p>
-            </div>
         </div>
-    </form>
-
-
+        <div class="large-4 columns">
+            <p>Some privacy and disclaimer text here.</p>
+        </div>
+    </div>
 </div>
+
+<div id="registrationPopup">
+    <div id="registrationText">
+    </div>
+</div>
+
 </body>
 </html>
