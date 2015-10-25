@@ -37,5 +37,7 @@
     }
   }
 
+  oci_free_statement($result);
+
   exit;
 ?>
