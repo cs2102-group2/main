@@ -40,11 +40,10 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['firs
     if($check == true) {
       oci_commit($connect);
       echo "Registration successful!";
-      oci_free_statement($result);
     } else {
-      oci_free_statement($result);
       echo $query;
     }
+    oci_free_statement($result);
 }
 
 exit;
