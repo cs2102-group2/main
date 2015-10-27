@@ -41,7 +41,7 @@ include 'includes/navbarAdmin.php';
         </tr>
         <?php
 
-        $query = "SELECT PROFILEID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME, ADDRESS, CONTACTNUM, DATEOFBIRTH, CREDITCARDNUM, CARDSECURITYCODE, CARDHOLDERNAME, ACCBALANCE FROM PROFILE";
+        $query = "SELECT PROFILEID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME, POSTALCODE, CONTACTNUM, DATEOFBIRTH, CREDITCARDNUM, CARDSECURITYCODE, CARDHOLDERNAME, ACCBALANCE FROM PROFILE";
 
         $result = oci_parse($connect, $query);
 
@@ -58,7 +58,7 @@ include 'includes/navbarAdmin.php';
                 <td class="password">'.$row['PASSWORD'].'</td>
                 <td class="firstname">'.$row['FIRSTNAME'].'</td>
                 <td class="lastname">'.$row['LASTNAME'].'</td>
-                <td class="postalcode">'.$row['ADDRESS'].'</td>
+                <td class="postalcode">'.$row['POSTALCODE'].'</td>
                 <td class="contactnum">'.$row['CONTACTNUM'].'</td>
                 <td class="dateofbirth">'.$row['DATEOFBIRTH'].'</td>
                 <td class="creditcardnum">'.$row['CREDITCARDNUM'].'</td>
