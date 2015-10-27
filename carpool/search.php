@@ -17,7 +17,7 @@ $countMsg = "";
     <?php
     include 'includes/datepicker.html';
     ?>
-    <script src="js/sortDiv.js" ></script>
+    <script src="js/search.js" ></script>
 
 </head>
 <body>
@@ -68,9 +68,9 @@ include 'includes/navbar.php';
             </div>
             <div class="large-12 columns">
                 <ul class="button-group radius even-3">
-                    <li><a href="#" class="tiny button">PROXIMITY</a></li>
-                    <li><a href="#" class="tiny button">TIME</a></li>
-                    <li><a href="#" class="tiny button"  onclick="sortCost(); return false;">PRICE</a></li>
+                    <li><a href="#" class="tiny button" id="seatSort">Seats</a></li>
+                    <li><a href="#" class="tiny button" id="timeSort">TIME</a></li>
+                    <li><a href="#" class="tiny button" id="priceSort">PRICE</a></li>
                 </ul>
             </div>
             <div class="large-12 right columns">
@@ -145,10 +145,10 @@ include 'includes/navbar.php';
                         $destination = strtoupper($_POST['destinationSearch']);
                         $date = $_POST['dateSearch'];
 
-                        $query = "SELECT TRIPNO, START_LOCATION, END_LOCATION, FIRSTNAME, RIDING_COST, SEATS_AVAILABLE, TRIP_DATE
-                                  FROM TRIPS
-                                  WHERE START_LOCATION = '".$departure."'
-                                  AND END_LOCATION = '".$destination."'
+                        $query = "SELECT DRIVER, DEPARTURE, DESTINATION, COST, SEATS_AVAILABLE, TRIP_DATE, TRIP_TIME
+                                  FROM SEARCHQUERY
+                                  WHERE DEPARTURE = '".$departure."'
+                                  AND DESTINATION = '".$destination."'
                                   AND TRIP_DATE = '".$date."'";
 
                         $result = oci_parse($connect, $query);
@@ -161,23 +161,22 @@ include 'includes/navbar.php';
 
                         // Print out results from Database
                         while($row = oci_fetch_array($result)) {
-                            echo'<div class="row collapse" data-cost="'.$row['RIDING_COST'].'" data-start="'.$row['START_LOCATION'].'" data-end="'.$row['END_LOCATION'].'">
+                            echo'<div class="row collapse" data-cost="'.$row['COST'].'" data-start="'.$row['DEPARTURE'].'" data-end="'.$row['DESTINATION'].'" data-date="'.$row['TRIP_DATE'].'" data-time="'.$row['TRIP_TIME'].'" data-seats-avail="'.$row['SEATS_AVAILABLE'].'">
                                 <div class="large-4 columns">
-                                    <a href="#">'.$row['FIRSTNAME'].'</a>
                                     <br>
                                     <br>
-                                    <p>(Profile Picture)</p>
+                                    <p><b>'.$row['DRIVER'].'</b></p>
                                 </div>
                                 <div class="large-4 columns">
                                     <!--<p>4 July 2015, 6:00 pm</p>-->
-                                    <p>'.$row['TRIP_DATE'].', '.$row['TIME'].'</p>
-                                    <p>Departure: '.$row['START_LOCATION'].'</p>
+                                    <p>'.$row['TRIP_DATE'].', '.$row['TRIP_TIME'].'</p>
+                                    <p>Departure: '.$row['DEPARTURE'].'</p>
                                     <!--<p class="smallFont">(30 km from your searched departure.)</p>-->
-                                    <p>Destination: '.$row['END_LOCATION'].'</p>
+                                    <p>Destination: '.$row['DESTINATION'].'</p>
                                     <!--<p class="smallFont">(30 km from your searched departure.)</p>-->
                                 </div>
                                 <div class="large-4 columns">
-                                    <p>SGD '.$row['RIDING_COST'].' / Passenger</p>
+                                    <p>SGD '.$row['COST'].' / Passenger</p>
                                     <button type="submit" value="'.$row['TRIPNO'].'" class="radius button">'.$row['SEATS_AVAILABLE'].' SEATS AVAILABLE</button>
                                 </div>
                                 <hr>

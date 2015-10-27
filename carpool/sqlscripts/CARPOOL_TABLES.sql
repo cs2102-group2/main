@@ -178,3 +178,11 @@ BEGIN
   END IF;
 END;
 /
+
+/*********************************************************
+ * Views
+ *********************************************************/
+CREATE OR REPLACE VIEW SearchQuery AS
+  SELECT T.TripNo AS TripNo, T.Start_Location AS Departure, T.End_Location AS Destination, T.Riding_Cost AS Cost, T.Seats_Available AS Seats_Available, TO_CHAR(T.Trip_Date, 'DD-Mon-YY') AS Trip_Date, TO_CHAR(T.Trip_Date, 'HH24:MI') AS Trip_Time, TO_CHAR(T.Trip_Date, 'HH24:MI') AS Trip_Time, (P.FirstName || ' ' || P.LastName) AS Driver
+  FROM Trips T, Profile P
+  WHERE T.ProfileID = P.ProfileID;
