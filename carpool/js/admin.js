@@ -453,7 +453,7 @@ $(document).on("click", ".editTripButton", function () {
   var _ridingcost = $(this).closest("tr").find(".ridingcost").text();
   var _seatsavailable = $(this).closest("tr").find(".seatsavailable").text();
   var _tripdate = $(this).closest("tr").find(".tripdate").text();
-  var _firstname = $(this).closest("tr").find(".firstname").text();
+  var _plateno = $(this).closest("tr").find(".plateno").text();
   var _profileid = $(this).closest("tr").find(".profileid").text();
 
   //Pop up for user to enter value
@@ -464,7 +464,7 @@ $(document).on("click", ".editTripButton", function () {
   document.getElementById("idcost").value=_ridingcost;
   document.getElementById("idseatsavail").value=_seatsavailable;
   document.getElementById("idtripdate").value=_tripdate;
-  document.getElementById("idfirstname1").value=_firstname;
+  document.getElementById("idplateno1").value=_plateno;
   document.getElementById("idprofileid3").value=_profileid;
 
   //Check if modified
@@ -485,7 +485,7 @@ $(document).on("click", ".editTripButton", function () {
               document.getElementById("idcost").value===_ridingcost &&
               document.getElementById("idseatsavail").value===_seatsavailable &&
               document.getElementById("idtripdate").value===_tripdate &&
-              document.getElementById("idfirstname1").value===_firstname &&
+              document.getElementById("idplateno1").value===_plateno &&
               document.getElementById("idprofileid3").value===_profileid) {
             $(this).dialog("close");
             return;
@@ -503,7 +503,7 @@ $(document).on("click", ".editTripButton", function () {
               "ridingcost": document.getElementById("idcost").value,
               "seatsavail": document.getElementById("idseatsavail").value,
               "tripdate": "'" + document.getElementById("idtripdate").value + "'",
-              "firstname": "'" + document.getElementById("idfirstname1").value + "'",
+              "plateno": "'" + document.getElementById("idplateno1").value + "'",
               "profileid": document.getElementById("idprofileid3").value
              },
             success: function (result) { if(!result.error) alert(result); /*location.reload(true);*/ },

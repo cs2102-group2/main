@@ -223,7 +223,7 @@ include 'includes/navbarAdmin.php';
         </tr>
         <?php
 
-        $query = "SELECT TRIPNO, START_LOCATION, END_LOCATION, RIDING_COST, SEATS_AVAILABLE, TRIP_DATE, FIRSTNAME, PROFILEID FROM TRIPS";
+        $query = "SELECT TRIPNO, START_LOCATION, END_LOCATION, RIDING_COST, SEATS_AVAILABLE, TRIP_DATE, PLATENO, PROFILEID FROM TRIPS";
 
         $result = oci_parse($connect, $query);
 
@@ -237,7 +237,7 @@ include 'includes/navbarAdmin.php';
                 <td class="ridingcost">'.$row['RIDING_COST'].'</td>
                 <td class="seatsavailable">'.$row['SEATS_AVAILABLE'].'</td>
                 <td class="tripdate">'.$row['TRIP_DATE'].'</td>
-                <td class="firstname">'.$row['FIRSTNAME'].'</td>
+                <td class="plateno">'.$row['PLATENO'].'</td>
                 <td class="profileid">'.$row['PROFILEID'].'</td>
                 <td><a title="Edit" class="ui-icon ui-icon-pencil editTripButton"></a></td>
                 <td><a title="Delete" class="ui-icon ui-icon-trash delTripButton"></a></td>
@@ -258,15 +258,15 @@ include 'includes/navbarAdmin.php';
     <label for="idendlocation">End Location:</label>
     <input type="text" name="endloc" id="idendlocation">
     <label for="idcost">Riding Cost:</label>
-    <input type="text" name="receiptno" id="idcost">
+    <input type="text" name="ridingcost" id="idcost">
     <label for="idseatsavail">Seats Available:</label>
-    <input type="text" name="receiptno" id="idseatsavail">
+    <input type="text" name="seatsavail" id="idseatsavail">
     <label for="idtripdate">Trip Date:</label>
-    <input type="text" name="receiptno" id="idtripdate">
-    <label for="idfirstname1">First Name:</label>
-    <input type="text" name="receiptno" id="idfirstname1">
+    <input type="text" name="tripdate" id="idtripdate">
+    <label for="idplateno1">Plate No:</label>
+    <input type="text" name="plateno" id="idplateno1">
     <label for="idprofileid3">Profile ID:</label>
-    <input type="text" name="receiptno" id="idprofileid3">
+    <input type="text" name="profileid" id="idprofileid3">
 </form>
 
 <div id="deleteTripForm">
