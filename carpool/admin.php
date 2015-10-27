@@ -14,7 +14,7 @@ include 'sqlconn.php'; // Connect to database
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
-    <script src="js/admin.min.js"></script>
+    <script src="js/admin.js"></script>
 </head>
 <body>
 <?php
@@ -217,7 +217,7 @@ include 'includes/navbarAdmin.php';
             <th>Cost</th>
             <th>Seats Avail</th>
             <th>Date</th>
-            <th>First Name</th>
+            <th>Plate No</th>
             <th>Profile ID</th>
             <!--<th>Action(s)</th>-->
         </tr>

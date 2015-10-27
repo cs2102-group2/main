@@ -15,7 +15,7 @@ DROP SEQUENCE seq_profile;
 DROP SEQUENCE seq_bookings;
 DROP SEQUENCE seq_trips;
 
-DROP TABLE Vehicle;
 DROP TABLE Bookings;
 DROP TABLE Trips;
+DROP TABLE Vehicle;
 DROP TABLE Profile;
