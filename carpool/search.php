@@ -40,10 +40,10 @@ include 'includes/navbar.php';
                         $destination = strtoupper($_POST['destinationSearch']);
                         $date = $_POST['dateSearch'];
 
-                        $query = "SELECT COUNT(*)
-                                  FROM TRIPS
-                                  WHERE START_LOCATION = '".$departure."'
-                                  AND END_LOCATION = '".$destination."'
+                        $query = "SELECT COUNT(*) AS AVAIL_CARPOOL, MIN(TRIP_TIME) AS MIN_TRIP_TIME, MAX(TRIP_TIME) AS MAX_TRIP_TIME, MIN(COST) AS MIN_COST, MAX(COST) AS MAX_COST
+                                  FROM SEARCHQUERY
+                                  WHERE DEPARTURE = '".$departure."'
+                                  AND DESTINATION = '".$destination."'
                                   AND TRIP_DATE = '".$date."'";
 
                         $result = oci_parse($connect, $query);
@@ -54,9 +54,10 @@ include 'includes/navbar.php';
                             exit;
                         }
 
-                        while($row = oci_fetch_array($result)) {
-                            echo'<p id="availCarpool">'.$row[0].'</p>';
-                        }
+                        $row = oci_fetch_array($result);
+
+                        //Retrieve available number of carpool
+                        echo'<p id="availCarpool">'.$row['AVAIL_CARPOOL'].'</p>';
                     }
                 }
             ?>
@@ -78,7 +79,7 @@ include 'includes/navbar.php';
             </div>
             <div class="large-12 right columns">
                 <!--Set Time Range too!-->
-                <label>Time (08:00 - 12:00)
+                <label>Time <?php echo '('.$row['MIN_TRIP_TIME'].' - '.$row['MAX_TRIP_TIME'].')' ?>
                     <div class="range-slider radius" data-slider>
                         <span class="range-slider-handle" role="slider" tabindex="0"></span>
                         <span class="range-slider-active-segment"></span>
@@ -87,8 +88,8 @@ include 'includes/navbar.php';
                 </label>
             </div>
 
+            <!--
             <div class="large-12 right columns">
-                <!--Set Distance Range too!-->
                 <label>Distance - Departure (2.3km - 40km)
                     <div class="range-slider radius" data-slider>
                         <span class="range-slider-handle" role="slider" tabindex="0"></span>
@@ -104,10 +105,11 @@ include 'includes/navbar.php';
                     </div>
                 </label>
             </div>
+            -->
 
             <div class="large-12 right columns">
                 <!--Set Price Range too!-->
-                <label>Price (SGD 2.30 - SGD 5.00)
+                <label>Price <?php echo '( SGD '.$row['MIN_COST'].' -  SGD '.$row['MAX_COST'].')' ?>
                     <div class="range-slider radius" data-slider>
                         <span id="priceFilter" class="range-slider-handle" role="slider" tabindex="0"></span>
                         <span class="range-slider-active-segment"></span>

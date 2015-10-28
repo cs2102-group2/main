@@ -6,7 +6,9 @@ $(document).on("click", "#priceSort", function () {
     var contentB = parseInt($(b).data('cost'));
     return (contentA - contentB);
   }).appendTo($wrapper);
-}
+
+  return false;
+})
 
 $(document).on("click", "#timeSort", function () {
   var $wrapper = $('.user');
@@ -16,7 +18,9 @@ $(document).on("click", "#timeSort", function () {
     var contentB = new Date('1970/01/01 ' + $(b).data('time'));
     return (contentA - contentB);
   }).appendTo($wrapper);
-}
+
+  return false;
+})
 
 $(document).on("click", "#seatSort", function () {
   var $wrapper = $('.user');
@@ -26,4 +30,6 @@ $(document).on("click", "#seatSort", function () {
     var contentB = parseInt($(b).data('seats-avail'));
     return (contentA - contentB);
   }).appendTo($wrapper);
-}
+
+  return false;
+})
