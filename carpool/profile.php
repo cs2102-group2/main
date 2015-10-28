@@ -86,17 +86,35 @@ include 'includes/navbar.php';
                 <tr>
                     <th>Passenger(s)</th>
                     <th>Contact</th>
+                    <th>Plate Number</th>
+                    <th>Model</th>
                     <th>Departure</th>
                     <th>Destination</th>
                     <th>Departure Time</th>
                 </tr>
-                <tr>
-                    <td>The Egg</td>
-                    <td>9999-9999</td>
-                    <td>Egg Farm</td>
-                    <td>Frying Pan</td>
-                    <td>23 Jun 15, 08:00</td>
-                </tr>
+                <?php
+
+                $query = "SELECT PASSENGER, PASSENGER_CONTACT,PLATENO, MODEL, DEPARTURE, DESTINATION, TRIP_DATE, TRIP_TIME FROM PENDINGRIDE WHERE DRIVER_ID=".$userID." AND TRIP_DATE >=(SYSDATE)";
+
+                $result = oci_parse($connect, $query);
+                $check = oci_execute($result, OCI_DEFAULT);
+
+                if($check == true) {
+                    while($row = oci_fetch_array($result)) {
+                        echo'<tr>
+                                <td>'.$row['PASSENGER'].'</td>
+                                <td>'.$row['PASSENGER_CONTACT'].'</td>
+                                <td>'.$row['PLATENO'].'</td>
+                                <td>'.$row['MODEL'].'</td>
+                                <td>'.$row['DEPARTURE'].'</td>
+                                <td>'.$row['DESTINATION'].'</td>
+                                <td>'.$row['TRIP_DATE'].', '.$row['TRIP_TIME'].'</td>
+                            </tr>';
+                    }
+                }
+
+                oci_free_statement($result);
+                ?>
             </table>
         </div>
 
@@ -105,45 +123,42 @@ include 'includes/navbar.php';
             <table class="large-12 columns">
             <caption class="white-font"><b>Pending: Your Rides(s)</b></caption>
                 <tr>
-                    <th>Driver(s)</th>
+                    <th>Driver</th>
                     <th>Contact</th>
+                    <th>Plate Number</th>
                     <th>Model</th>
-                    <th>Seats</th>
                     <th>Departure</th>
                     <th>Destination</th>
                     <th>Departure Time</th>
                 </tr>
-                <tr>
-                    <td>June</td>
-                    <td>9999-9999</td>
-                    <td>No Model</td>
-                    <td>3 / 4</td>
-                    <td>Kent Ridge</td>
-                    <td>Kent Ridge</td>
-                    <td>23 Jun 15, 08:00</td>
-                </tr>
+
+                <?php
+
+                $query = "SELECT DRIVER, DRIVER_CONTACT, PLATENO, MODEL, DEPARTURE, DESTINATION, TRIP_DATE, TRIP_TIME
+                            FROM PENDINGRIDE
+                            WHERE PASSENGER_ID=".$userID." AND TRIP_DATE >=(SYSDATE)";
+
+                $result = oci_parse($connect, $query);
+                $check = oci_execute($result, OCI_DEFAULT);
+
+                if($check == true) {
+                    while($row = oci_fetch_array($result)) {
+                        echo'<tr>
+                                <td>'.$row['DRIVER'].'</td>
+                                <td>'.$row['DRIVER_CONTACT'].'</td>
+                                <td>'.$row['PLATENO'].'</td>
+                                <td>'.$row['MODEL'].'</td>
+                                <td>'.$row['DEPARTURE'].'</td>
+                                <td>'.$row['DESTINATION'].'</td>
+                                <td>'.$row['TRIP_DATE'].', '.$row['TRIP_TIME'].'</td>
+                            </tr>';
+                    }
+                }
+
+                oci_free_statement($result);
+                ?>
             </table>
         </div>
-
-        <!--
-        <div class="row collapse">
-            <caption>What Are Others Saying?</caption>
-
-            <div class="commentHolder">
-                <div class="row collapse">
-                    <div class="large-12 passenger columns">
-                        <a href="#">Passenger's Name</a>
-                    </div>
-                </div>
-                <div class="row collapse">
-                    <p class="large-9 columns">HELLO</p>
-                    <div class="rating large-3 columns">
-                    </div>
-                </div>
-            </div>
-        </div>
-        -->
-
     </div>
 </div>
 

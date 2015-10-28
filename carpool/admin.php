@@ -192,7 +192,7 @@ include 'includes/navbarAdmin.php';
 </div>
 
 <form id="editBookingForm" >
-    <label for="idbno">Plate Number:</label>
+    <label for="idbno">Booking ID:</label>
     <input type="text" name="platenum" id="idbno">
     <label for="idprofileid2">Profile ID (Ref):</label>
     <input type="text" name="profileid" id="idprofileid2">
@@ -223,7 +223,7 @@ include 'includes/navbarAdmin.php';
         </tr>
         <?php
 
-        $query = "SELECT TRIPNO, START_LOCATION, END_LOCATION, RIDING_COST, SEATS_AVAILABLE, TRIP_DATE, PLATENO, PROFILEID FROM TRIPS";
+        $query = "SELECT TRIPNO, START_LOCATION, END_LOCATION, RIDING_COST, SEATS_AVAILABLE, TRIP_DATE, PLATE_NUM, PROFILEID FROM TRIPS";
 
         $result = oci_parse($connect, $query);
 
@@ -237,7 +237,7 @@ include 'includes/navbarAdmin.php';
                 <td class="ridingcost">'.$row['RIDING_COST'].'</td>
                 <td class="seatsavailable">'.$row['SEATS_AVAILABLE'].'</td>
                 <td class="tripdate">'.$row['TRIP_DATE'].'</td>
-                <td class="plateno">'.$row['PLATENO'].'</td>
+                <td class="plateno">'.$row['PLATE_NUM'].'</td>
                 <td class="profileid">'.$row['PROFILEID'].'</td>
                 <td><a title="Edit" class="ui-icon ui-icon-pencil editTripButton"></a></td>
                 <td><a title="Delete" class="ui-icon ui-icon-trash delTripButton"></a></td>

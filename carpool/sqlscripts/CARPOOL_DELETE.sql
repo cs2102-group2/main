@@ -4,6 +4,9 @@
  * Use the following to delete (note that the order of
  deletion are in reverse order w.r.t to CARPOOL_TABLES.sql)
  *********************************************************/
+DROP VIEW SearchQuery;
+DROP VIEW PendingRide;
+
 DROP TRIGGER trigger_birth_date_checks;
 DROP TRIGGER trigger_tripdate_check;
 

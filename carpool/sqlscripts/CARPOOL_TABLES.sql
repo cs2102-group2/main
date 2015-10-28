@@ -59,7 +59,7 @@ CREATE TABLE Bookings
 BNO int NOT NULL,
 PROFILEID int,
 TRIPID int,
-RECEIPTNO char(256) UNIQUE NOT NULL,
+RECEIPTNO varchar(255) UNIQUE NOT NULL,
 PRIMARY KEY (BNO),
 CONSTRAINT tripid_foreignkey_bookings
   FOREIGN KEY (TRIPID) REFERENCES TRIPS(TRIPNO)
@@ -141,7 +141,7 @@ CREATE OR REPLACE TRIGGER trigger_booking_invoice
   BEFORE INSERT ON Bookings
   FOR EACH ROW
 BEGIN
-  :new.receiptno := TO_CHAR(seq_invoice.nextval, 'FM 099999999') + '-IN';
+  :new.receiptno := TO_CHAR(seq_invoice.nextval, 'FM099999999') || '-IN';
 END;
 /
 
@@ -183,6 +183,36 @@ END;
  * Views
  *********************************************************/
 CREATE OR REPLACE VIEW SearchQuery AS
-  SELECT T.TripNo AS TripNo, T.Start_Location AS Departure, T.End_Location AS Destination, T.Riding_Cost AS Cost, T.Seats_Available AS Seats_Available, TO_CHAR(T.Trip_Date, 'DD-Mon-YY') AS Trip_Date, TO_CHAR(T.Trip_Date, 'HH24:MI') AS Trip_Time, TO_CHAR(T.Trip_Date, 'HH24:MI') AS Trip_Time, (P.FirstName || ' ' || P.LastName) AS Driver
+  SELECT T.TripNo AS TripNo,
+         T.Start_Location AS Departure,
+         T.End_Location AS Destination,
+         T.Riding_Cost AS Cost,
+         T.Seats_Available AS Seats_Available,
+         TO_CHAR(T.Trip_Date, 'DD-Mon-YY') AS Trip_Date,
+         TO_CHAR(T.Trip_Date, 'HH24:MI') AS Trip_Time,
+         (P.FirstName || ' ' || P.LastName) AS Driver
   FROM Trips T, Profile P
   WHERE T.ProfileID = P.ProfileID;
+
+CREATE OR REPLACE VIEW PendingRide AS
+  SELECT Driver.ProfileID AS Driver_ID,
+         (Driver.FirstName || ' ' || Driver.LastName) AS Driver,
+         Driver.ContactNum AS Driver_Contact,
+         Passenger.ProfileID AS Passenger_ID,
+         (Passenger.FirstName || ' ' || Passenger.LastName) AS Passenger,
+         Passenger.ContactNum AS Passenger_Contact,
+         T.TripNo AS TripNo, T.Start_Location AS Departure,
+         T.End_Location AS Destination,
+         T.Riding_Cost AS Cost,
+         T.Seats_Available AS Seats_Available,
+         TO_CHAR(T.Trip_Date, 'DD-Mon-YY') AS Trip_Date,
+         TO_CHAR(T.Trip_Date, 'HH24:MI') AS Trip_Time,
+         V.PlateNo AS PlateNo,
+         V.Model AS Model
+  FROM Bookings B, Trips T, Profile Passenger, Profile Driver, Vehicle V
+  WHERE Driver.ProfileID = T.ProfileID AND
+        T.Plate_Num = V.PlateNo AND
+        T.TripNo = B.TripID AND
+        B.ProfileID = Passenger.ProfileID;
+
+
