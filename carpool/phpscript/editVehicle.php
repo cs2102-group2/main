@@ -42,7 +42,6 @@
 
     $query = "UPDATE VEHICLE
               SET PLATENO = ".$platenum.",
-                  PROFILEID = ".$profileid.",
                   MODEL = ".$model.",
                   NUMOFSEATS = ".$seatsnum."
               WHERE PLATENO = ".$id;

@@ -18,6 +18,10 @@ if(isUserLoggedIn() == false) {
     <link rel="stylesheet" href="./css/customise.css" />
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <script src="js/profile.js"></script>
 </head>
 <body>
 
@@ -56,9 +60,9 @@ include 'includes/navbar.php';
                 if($check == true) {
                     while($row = oci_fetch_array($result)) {
                         echo'<tr>
-                                <td>'.$row['PLATENO'].'</td>
-                                <td>'.$row['MODEL'].'</td>
-                                <td>'.$row['NUMOFSEATS'].'</td>
+                                <td class="plateno">'.$row['PLATENO'].'</td>
+                                <td class="model">'.$row['MODEL'].'</td>
+                                <td class="numofseats">'.$row['NUMOFSEATS'].'</td>
                                 <td><a title="Edit" class="ui-icon ui-icon-pencil editVehicleButton"></a></td>
                                 <td><a title="Delete" class="ui-icon ui-icon-trash delVehicleButton"></a></td>
                             </tr>';
