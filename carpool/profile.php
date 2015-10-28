@@ -59,8 +59,8 @@ include 'includes/navbar.php';
                                 <td>'.$row['PLATENO'].'</td>
                                 <td>'.$row['MODEL'].'</td>
                                 <td>'.$row['NUMOFSEATS'].'</td>
-                                <td><span title="Edit" class="ui-icon ui-icon-pencil"></span></td>
-                                <td><span title="Delete" class="ui-icon ui-icon-trash"></span></td>
+                                <td><a title="Edit" class="ui-icon ui-icon-pencil editVehicleButton"></a></td>
+                                <td><a title="Delete" class="ui-icon ui-icon-trash delVehicleButton"></a></td>
                             </tr>';
                     }
                 }
@@ -159,6 +159,21 @@ include 'includes/navbar.php';
                 ?>
             </table>
         </div>
+    </div>
+</div>
+
+
+<form id="editVehicleForm" >
+    <label for="idplateno">Plate Number:</label>
+    <input type="text" name="platenum" id="idplateno">
+    <label for="idmodel">Model:</label>
+    <input type="text" name="model" id="idmodel">
+    <label for="idnumseats">No. Of Seats:</label>
+    <input type="text" name="numseats" id="idnumseats">
+</form>
+
+<div id="deleteVehicleForm">
+    <div id="deleteVehicleText">
     </div>
 </div>
 
