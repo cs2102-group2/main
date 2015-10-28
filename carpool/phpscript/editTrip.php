@@ -22,7 +22,7 @@
                   RIDING_COST = ".$ridingcost.",
                   SEATS_AVAILABLE = ".$seatsavail.",
                   TRIP_DATE = ".$tripdate.",
-                  PLATE_NUM = ".$plateno.",
+                  PLATENO = ".$plateno.",
                   PROFILEID = ".$profileid."
               WHERE TRIPNO = ".$id;
 
