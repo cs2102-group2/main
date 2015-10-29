@@ -214,5 +214,3 @@ CREATE OR REPLACE VIEW PendingRide AS
         T.PlateNo = V.PlateNo AND
         T.TripNo = B.TripID AND
         B.ProfileID = Passenger.ProfileID;
-
-
