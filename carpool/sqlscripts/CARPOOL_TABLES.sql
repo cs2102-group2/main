@@ -209,8 +209,9 @@ CREATE OR REPLACE VIEW PendingRide AS
          TO_CHAR(T.Trip_Date, 'HH24:MI') AS Trip_Time,
          V.PlateNo AS PlateNo,
          V.Model AS Model
-  FROM Bookings B, Trips T, Profile Passenger, Profile Driver, Vehicle V
+  FROM Bookings B, Trips T, Profile Passenger, Profile Driver, OWNS owner, Vehicle V
   WHERE Driver.ProfileID = T.ProfileID AND
-        T.PlateNo = V.PlateNo AND
+        owner.OWNERID = T.ProfileID AND
+        owner.VEHICLENO = V.PlateNo AND
         T.TripNo = B.TripID AND
         B.ProfileID = Passenger.ProfileID;
