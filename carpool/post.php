@@ -105,23 +105,42 @@ include 'includes/navbar.php';
                                 <div class="row collapse">
                                     <div class="large-12 left columns">
                                         <!--Query to Get Car-->
-                                        <select name="carType" class="text-center">
+                                        <select name="carType" class="text-center" id="carDropdown">
                                             <option class="placeholder" selected="selected" value= "" disabled="disabled">Choose your car:</option>
-                                            <option value="BMW">BMW</option>
-                                            <option value="Toyota">Toyota</option>
-                                            <option value="Honda">Honda</option>
+                                            <?php
+                                            $userID = getProfileID();
+
+                                            //Associative array to be passed to javascript, so that it can determine the max value of the following dropdown bar
+                                            $maxVehicleCapacity = array();
+
+                                            $query = "SELECT PLATENO, MODEL, NUMOFSEATS FROM VEHICLE WHERE PROFILEID =".$userID;
+
+                                            $result = oci_parse($connect, $query);
+
+                                            $check = oci_execute($result, OCI_DEFAULT);
+                                            if($check == true) {
+                                                while($row = oci_fetch_array($result)) {
+                                                    echo '<option value="'.$row['PLATENO'].'">'.$row['MODEL'].' ('.$row['PLATENO'].')</option>';
+
+                                                //Building associative array
+                                                    $maxVehicleCapacity[$row['PLATENO']] = $row['NUMOFSEATS'];
+                                                }
+
+                                                oci_free_statement($result);
+                                            }
+
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row collapse">
                                     <div class="large-12 left columns">
                                         <!--Query to Get Car Seats-->
-                                        <select name="numOfSeats" class="text-center">
-                                            <option class="placeholder" selected="selected" value= "" disabled="disabled">Seats Available:</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
+                                        <script type="text/javascript">
+                                            var arrayOfCarCapacity = <?php echo json_encode($maxVehicleCapacity)?>;
+                                            localStorage['capacity'] = JSON.stringify(arrayOfCarCapacity);
+                                        </script>
+                                        <select name="numOfSeats" class="text-center" id="seatsDropdown">
                                         </select>
                                     </div>
                                 </div>
@@ -142,6 +161,6 @@ include 'includes/navbar.php';
         </div>
     </div>
 </div>
-
+<script src="js/post.js"></script>
 </body>
 </html>
