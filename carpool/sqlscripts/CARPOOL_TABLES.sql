@@ -179,6 +179,28 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE TRIGGER trigger_seat_avail_check
+  BEFORE INSERT OR UPDATE ON Trips
+  FOR EACH ROW
+BEGIN
+  IF ( :new.seats_available < 0 ) THEN
+    RAISE_APPLICATION_ERROR( -20004, 'Seats available is a negative number' );
+  END IF;
+END;
+/
+
+CREATE OR REPLACE TRIGGER trigger_acct_balance_check
+  BEFORE INSERT OR UPDATE ON Profile
+  FOR EACH ROW
+BEGIN
+  IF ( :new.accbalance < 0 ) THEN
+    RAISE_APPLICATION_ERROR( -20005, 'Account balance is a negative number!' );
+  END IF;
+END;
+/
+
+
+
 /*********************************************************
  * Views
  *********************************************************/
