@@ -223,9 +223,8 @@ include 'includes/navbarAdmin.php';
         </tr>
         <?php
 
-        $query = "SELECT TRIPNO, START_LOCATION, END_LOCATION, RIDING_COST, SEATS_AVAILABLE, TRIP_DATE, VEHICLENO, PROFILEID
-                  FROM TRIPS, OWNS
-                  WHERE PROFILEID = OWNS.OWNERID";
+        $query = "SELECT TRIPNO, START_LOCATION, END_LOCATION, RIDING_COST, SEATS_AVAILABLE, TRIP_DATE, PLATENO, PROFILEID
+                  FROM TRIPS";
 
         $result = oci_parse($connect, $query);
 
