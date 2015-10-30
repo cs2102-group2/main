@@ -147,7 +147,7 @@ include 'includes/navbar.php';
                         $destination = strtoupper($_POST['destinationSearch']);
                         $date = $_POST['dateSearch'];
 
-                        $query = "SELECT DRIVER, DEPARTURE, DESTINATION, COST, SEATS_AVAILABLE, TRIP_DATE, TRIP_TIME
+                        $query = "SELECT TRIPNO, DRIVER, DEPARTURE, DESTINATION, COST, SEATS_AVAILABLE, TRIP_DATE, TRIP_TIME
                                   FROM SEARCHQUERY
                                   WHERE DEPARTURE = '".$departure."'
                                   AND DESTINATION = '".$destination."'
@@ -163,7 +163,7 @@ include 'includes/navbar.php';
 
                         // Print out results from Database
                         while($row = oci_fetch_array($result)) {
-                            echo'<div class="row collapse" data-cost="'.$row['COST'].'" data-start="'.$row['DEPARTURE'].'" data-end="'.$row['DESTINATION'].'" data-date="'.$row['TRIP_DATE'].'" data-time="'.$row['TRIP_TIME'].'" data-seats-avail="'.$row['SEATS_AVAILABLE'].'">
+                            echo'<div class="row collapse" data-tripid="'.$row['TRIPNO'].'" data-cost="'.$row['COST'].'" data-start="'.$row['DEPARTURE'].'" data-end="'.$row['DESTINATION'].'" data-date="'.$row['TRIP_DATE'].'" data-time="'.$row['TRIP_TIME'].'" data-seats-avail="'.$row['SEATS_AVAILABLE'].'">
                                 <div class="large-4 columns">
                                     <br>
                                     <br>
@@ -179,7 +179,7 @@ include 'includes/navbar.php';
                                 </div>
                                 <div class="large-4 columns">
                                     <p>SGD '.$row['COST'].' / Passenger</p>
-                                    <button type="submit" value="'.$row['TRIPNO'].'" class="radius button">'.$row['SEATS_AVAILABLE'].' SEATS AVAILABLE</button>
+                                    <a value="'.$row['TRIPNO'].'" class="bookingSubmit radius button">'.$row['SEATS_AVAILABLE'].' SEATS AVAILABLE</a>
                                 </div>
                                 <hr>
                                 <hr>
@@ -192,6 +192,11 @@ include 'includes/navbar.php';
             </div>
             <hr>
         </div>
+    </div>
+</div>
+
+<div id="bookingPopup">
+    <div id="bookingText">
     </div>
 </div>
 

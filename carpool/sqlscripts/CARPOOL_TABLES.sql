@@ -199,8 +199,6 @@ BEGIN
 END;
 /
 
-
-
 /*********************************************************
  * Views
  *********************************************************/
@@ -236,3 +234,39 @@ CREATE OR REPLACE VIEW PendingRide AS
         T.PlateNo = V.PlateNo AND
         T.TripNo = B.TripID AND
         B.ProfileID = Passenger.ProfileID;
+
+/*********************************************************
+ * Stored Procedure
+ *********************************************************/
+CREATE OR REPLACE PROCEDURE BookingTransaction (PassengerID IN INT, TripNumber IN INT) IS
+      PassengerAcctBalance FLOAT;
+      DriverID INT;
+      SeatsAvail INT;
+      TripCost INT;
+    BEGIN
+      --Retrive values
+      SELECT AccBalance INTO PassengerAcctBalance FROM Profile WHERE ProfileID = PassengerID;
+      SELECT ProfileID, Seats_Available, Riding_Cost INTO DriverID, SeatsAvail, TripCost FROM Trips WHERE TripNo = TripNumber;
+      --Set Savepoint
+      SAVEPOINT Origin;
+      -- Deduct amount from account balance
+      UPDATE Profile
+        SET AccBalance = (PassengerAcctBalance - TripCost)
+        WHERE ProfileID = PassengerID;
+      -- Decrement of seats_available in trip
+      UPDATE Trips
+        SET Seats_Available = (SeatsAvail - 1)
+        WHERE TripNo = TripNumber;
+      -- Increase account balance of driver
+      UPDATE Profile
+        SET AccBalance = (PassengerAcctBalance + TripCost)
+        WHERE ProfileID = DriverID;
+      -- Create entry in booking table
+      INSERT INTO Bookings(ProfileID, TripID) VALUES (PassengerID, TripNumber);
+    EXCEPTION
+      WHEN OTHERS THEN
+        -- We roll back to the savepoint.
+        ROLLBACK TO Origin;
+        RAISE_APPLICATION_ERROR( -21000, 'Booking trip failed...' );
+    END;
+/
