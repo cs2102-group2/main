@@ -15,10 +15,13 @@ if(isset($_POST['login'])) {
         $pw = $_POST['password'];
 
         // Find username and password
-        $query = "SELECT PROFILEID, FIRSTNAME, ACCBALANCE, CREDITCARDNUM FROM PROFILE WHERE Email='".$userName."' AND Password='".$pw."'";
+        $query = "SELECT PROFILEID, FIRSTNAME, ACCBALANCE, CREDITCARDNUM FROM PROFILE WHERE Email=:email AND Password=:password";
 
         //  Store result of query
         $result = oci_parse($connect, $query);
+
+        oci_bind_by_name($query, ':email', $userName);
+        oci_bind_by_name($query, ':password', $pw);
 
         // Check if query fails
         $check = oci_execute($result, OCI_DEFAULT);
