@@ -1,10 +1,6 @@
 <?php
-
 include 'libaries.php';
 include 'sqlconn.php';
-
-$countMsg = "";
-
 ?>
 
 <!DOCTYPE html>

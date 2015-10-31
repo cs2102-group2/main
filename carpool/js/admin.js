@@ -40,8 +40,7 @@ window.onload = function() {
       modal : true,
       show : "blind",
       hide : "blind",
-      minWidth: 500,
-      title: "Edit Profile"
+      minWidth: 500
     });
   });
 
@@ -62,8 +61,7 @@ window.onload = function() {
       modal : true,
       show : "blind",
       hide : "blind",
-      minWidth: 500,
-      title: "Edit Vehicle"
+      minWidth: 500
     });
   });
 
@@ -85,8 +83,7 @@ window.onload = function() {
       modal : true,
       show : "blind",
       hide : "blind",
-      minWidth: 500,
-      title: "Edit Booking "
+      minWidth: 500
     });
   });
 
@@ -107,8 +104,7 @@ window.onload = function() {
       autoOpen : false,
       modal : true,
       show : "blind",
-      hide : "blind",
-      title: "Delete Trip"
+      hide : "blind"
     });
   });
 
@@ -127,8 +123,80 @@ window.onload = function() {
 // Query submission to Oracle
 // TABLE PROFILE
 //==================================================
+//Create Profile Button
+$(document).on("click", ".createProfileButton", function () {
+  //Set title
+  $("#editProfileForm").dialog("option", "title", "Create Profile");
+  //Clear values
+  $("#editProfileForm").dialog("open");
+  document.getElementById("idprofile").value="";
+  document.getElementById("idemail").value="";
+  document.getElementById("idpasswd").value="";
+  document.getElementById("idfrname").value="";
+  document.getElementById("idlstname").value="";
+  document.getElementById("idpostal").value="";
+  document.getElementById("idcontact").value="";
+  document.getElementById("iddob").value="";
+  document.getElementById("idcardno").value="";
+  document.getElementById("idcsc").value="";
+  document.getElementById("idcardname").value="";
+  document.getElementById("idacct").value="";
+
+  //Disable irrelevant textfield
+  $("#idprofile").attr("disabled", "disabled");
+
+    //Check if modified
+  $("#editProfileForm").dialog( "option", "buttons",
+    [
+      {
+        text: "Cancel",
+        click: function() {
+          $("#idprofile").removeAttr("disabled");
+          $(this).dialog("close");
+          callback(false);
+        }
+       }, {
+        text: "Create",
+        click: function() {
+          //Input validation
+
+          //Enable textfield
+          $("#idprofile").removeAttr("disabled");
+
+          //TODO
+          $.ajax({
+            url: "phpscript/createProfile.php",
+            type: "POST",
+            data: {
+              //Note that "'" is used for non-integer/float values to encase it in single quotations
+              "firstname": "'" + document.getElementById("idfrname").value + "'",
+              "lastname": "'" + document.getElementById("idlstname").value + "'",
+              "email":  "'" + document.getElementById("idemail").value + "'",
+              "password": "'" + document.getElementById("idpasswd").value + "'",
+              "postalcode": document.getElementById("idpostal").value,
+              "contactnum": document.getElementById("idcontact").value,
+              "dob": "'" + document.getElementById("iddob").value + "'",
+              "creditcardnum": document.getElementById("idcardno").value,
+              "csc": document.getElementById("idcsc").value,
+              "cardholder": "'" + document.getElementById("idcardname").value + "'",
+              "acct": document.getElementById("idacct").value
+             },
+            success: function (result) { if(!result.error) location.reload(true); },
+            error: function(exception) { alert('Something went wrong with the transaction...'); }
+          });
+
+          $(this).dialog("close");
+          callback(false);
+        }
+      }
+    ]
+  );
+})
+
 //Edit Profile Button
 $(document).on("click", ".editProfileButton", function () {
+  //Set title
+  $("#editProfileForm").dialog("option", "title", "Edit Profile");
   //Retrieve values from row
   var _profileid = $(this).closest("tr").find(".profileid").text();
   var _email = $(this).closest("tr").find(".email").text();
@@ -254,8 +322,58 @@ $(document).on("click", ".delProfileButton", function () {
 // Query submission to Oracle
 // TABLE VEHICLE
 //==================================================
+//Create Vehicle Button
+$(document).on("click", ".createVehicleButton", function () {
+  //Set title
+  $("#editVehicleForm").dialog("option", "title", "Create Vehicle");
+  //Clear values
+  $("#editVehicleForm").dialog("open");
+  document.getElementById("idplateno").value="";
+  document.getElementById("profileid1").value="";
+  document.getElementById("idmodel").value="";
+  document.getElementById("idnumseats").value="";
+
+    //Check if modified
+  $("#editVehicleForm").dialog( "option", "buttons",
+    [
+      {
+        text: "Cancel",
+        click: function() {
+          $(this).dialog("close");
+          callback(false);
+        }
+       }, {
+        text: "Create",
+        //TODO
+        click: function() {
+          //Input validation
+
+          $.ajax({
+            url: "phpscript/createVehicle.php",
+            type: "POST",
+            data: {
+              //Note that "'" is used for non-integer/float values to encase it in single quotations
+              "platenum": "'" + document.getElementById("idplateno").value + "'",
+              "profileid": document.getElementById("profileid1").value,
+              "model": "'" + document.getElementById("idmodel").value + "'",
+              "seatsnum": document.getElementById("idnumseats").value
+             },
+            success: function (result) { if(!result.error) location.reload(true); },
+            error: function(exception) { alert('Something went wrong with the transaction...'); }
+          });
+
+          $(this).dialog("close");
+          callback(false);
+        }
+      }
+    ]
+  );
+})
+
 //Edit Vehicle Button
 $(document).on("click", ".editVehicleButton", function () {
+  //Set title
+  $("#editVehicleForm").dialog("option", "title", "Edit Vehicle");
   //Retrieve values from row
   var _plateno = String.trim($(this).closest("tr").find(".plateno").text());
   var _profileid = $(this).closest("tr").find(".profileid").text();
@@ -349,8 +467,65 @@ $(document).on("click", ".delVehicleButton", function () {
 // Query submission to Oracle
 // TABLE BOOKINGS
 //==================================================
+//Create Booking Button
+$(document).on("click", ".createBookingButton", function () {
+  //Set title
+  $("#editBookingForm").dialog("option", "title", "Create Booking");
+  //Clear values
+  $("#editBookingForm").dialog("open");
+  document.getElementById("idbno").value="";
+  document.getElementById("idprofileid2").value="";
+  document.getElementById("idtripid1").value="";
+  document.getElementById("idreceiptno").value="";
+
+  $("#idbno").attr("disabled", "disabled");
+  $("#idreceiptno").attr("disabled", "disabled");
+
+    //Check if modified
+  $("#editBookingForm").dialog( "option", "buttons",
+    [
+      {
+        text: "Cancel",
+        click: function() {
+          $("#idbno").removeAttr("disabled");
+          $("#idreceiptno").removeAttr("disabled");
+          $(this).dialog("close");
+          callback(false);
+        }
+       }, {
+        //TODO
+        text: "Create",
+        click: function() {
+          //Input validation
+
+
+          $("#idbno").removeAttr("disabled");
+          $("#idreceiptno").removeAttr("disabled");
+
+          $.ajax({
+            url: "phpscript/createBooking.php",
+            type: "POST",
+            data: {
+              //Note that "'" is used for non-integer/float values to encase it in single quotations
+              "profileid": document.getElementById("idprofileid2").value,
+              "tripid": document.getElementById("idtripid1").value
+             },
+            success: function (result) { if(!result.error) location.reload(true); },
+            error: function(exception) { alert('Something went wrong with the transaction...'); }
+          });
+
+          $(this).dialog("close");
+          callback(false);
+        }
+      }
+    ]
+  );
+})
+
 //Edit Booking Button
 $(document).on("click", ".editBookingButton", function () {
+  //Set title
+  $("#editBookingForm").dialog("option", "title", "Edit Booking");
   //Retrieve values from row
   var _bno = $(this).closest("tr").find(".bno").text();
   var _profileid = $(this).closest("tr").find(".profileid").text();
@@ -444,8 +619,70 @@ $(document).on("click", ".delBookingButton", function () {
 // Query submission to Oracle
 // TABLE TRIPS
 //==================================================
+//Create Trip Button
+$(document).on("click", ".createTripButton", function () {
+  //Set title
+  $("#editTripForm").dialog("option", "title", "Create Trip");
+  //Clear values
+  $("#editTripForm").dialog("open");
+  document.getElementById("idtripno2").value="";
+  document.getElementById("idstartlocation").value="";
+  document.getElementById("idendlocation").value="";
+  document.getElementById("idcost").value="";
+  document.getElementById("idseatsavail").value="";
+  document.getElementById("idtripdate").value="";
+  document.getElementById("idplateno1").value="";
+  document.getElementById("idprofileid3").value="";
+
+  $("#idtripno2").attr("disabled", "disabled");
+
+    //Check if modified
+  $("#editTripForm").dialog( "option", "buttons",
+    [
+      {
+        text: "Cancel",
+        click: function() {
+          $("#idtripno2").removeAttr("disabled");
+          $(this).dialog("close");
+          callback(false);
+        }
+       }, {
+        //TODO
+        text: "Create",
+        click: function() {
+          //Input validation
+
+          $("#idtripno2").removeAttr("disabled");
+
+          $.ajax({
+            url: "phpscript/createTrip.php",
+            type: "POST",
+            data: {
+              //Note that "'" is used for non-integer/float values to encase it in single quotations
+              "startloc": "'" + document.getElementById("idstartlocation").value + "'",
+              "endloc": "'" + document.getElementById("idendlocation").value + "'",
+              "ridingcost": document.getElementById("idcost").value,
+              "seatsavail": document.getElementById("idseatsavail").value,
+              "tripdate": "'" + document.getElementById("idtripdate").value + "'",
+              "plateno": "'" + document.getElementById("idplateno1").value + "'",
+              "profileid": document.getElementById("idprofileid3").value
+             },
+            success: function (result) { if(!result.error) location.reload(true); },
+            error: function(exception) { alert('Something went wrong with the transaction...'); }
+          });
+
+          $(this).dialog("close");
+          callback(false);
+        }
+      }
+    ]
+  );
+})
+
 //Edit Trip Button
 $(document).on("click", ".editTripButton", function () {
+  //Set title
+  $("#editTripForm").dialog("option", "title", "Edit Trip");
   //Retrieve values from row
   var _tripno = $(this).closest("tr").find(".tripno").text();
   var _startlocation = $(this).closest("tr").find(".startlocation").text();

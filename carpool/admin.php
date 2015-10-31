@@ -37,7 +37,7 @@ include 'includes/navbarAdmin.php';
             <th>CSC</th>
             <th>Card Name</th>
             <th>Acct. Balance</th>
-            <!--<th>Action(s)</th>-->
+            <th><a title="Create" class="ui-icon ui-icon-plus createProfileButton"></a></th>
         </tr>
         <?php
 
@@ -114,7 +114,7 @@ include 'includes/navbarAdmin.php';
             <th>Model</th>
             <th>No. of Seats</th>
             <th>Profile ID (Owner)</th>
-            <!--<th>Action(s)</th>-->
+            <th><a title="Create" class="ui-icon ui-icon-plus createVehicleButton"></a></th>
         </tr>
         <?php
 
@@ -165,7 +165,7 @@ include 'includes/navbarAdmin.php';
             <th>Profile ID (Owner)</th>
             <th>Trip ID</th>
             <th>Receipt ID</th>
-            <!--<th>Action(s)</th>-->
+            <th><a title="Create" class="ui-icon ui-icon-plus createBookingButton"></a></th>
         </tr><?php
 
         $query = "SELECT BNO, PROFILEID, TRIPID, RECEIPTNO FROM BOOKINGS";
@@ -219,7 +219,7 @@ include 'includes/navbarAdmin.php';
             <th>Date</th>
             <th>Plate No</th>
             <th>Profile ID</th>
-            <!--<th>Action(s)</th>-->
+            <th><a title="Create" class="ui-icon ui-icon-plus createTripButton"></a></th>
         </tr>
         <?php
 
@@ -238,7 +238,7 @@ include 'includes/navbarAdmin.php';
                 <td class="ridingcost">'.$row['RIDING_COST'].'</td>
                 <td class="seatsavailable">'.$row['SEATS_AVAILABLE'].'</td>
                 <td class="tripdate">'.$row['TRIP_DATE'].'</td>
-                <td class="plateno">'.$row['VEHICLENO'].'</td>
+                <td class="plateno">'.$row['PLATENO'].'</td>
                 <td class="profileid">'.$row['PROFILEID'].'</td>
                 <td><a title="Edit" class="ui-icon ui-icon-pencil editTripButton"></a></td>
                 <td><a title="Delete" class="ui-icon ui-icon-trash delTripButton"></a></td>
