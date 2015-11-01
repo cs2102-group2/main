@@ -8,16 +8,21 @@ Email varchar(255) UNIQUE NOT NULL,
 Password varchar (255) NOT NULL,
 FirstName varchar(255) NOT NULL,
 LastName varchar(255) NOT NULL,
-PostalCode varchar(255) NOT NULL,
-ContactNum char(11) UNIQUE NOT NULL,
+PostalCode int NOT NULL,
+ContactNum int UNIQUE NOT NULL,
 DateOfBirth date NOT NULL,
-CreditCardNum varchar(32) NOT NULL,
-CardSecurityCode char(3) NOT NULL,
+CreditCardNum int NOT NULL,
+CardSecurityCode int NOT NULL,
 CardHolderName varchar(255) NOT NULL,
 AccBalance DECIMAL(38,2) DEFAULT 0,
+Admin number(1) DEFAULT 0,
 PRIMARY KEY (ProfileID),
-CONSTRAINT email_formatting
-  CHECK(REGEXP_LIKE(Email, '^\S+@\S+$'))  -- Using RegEx, or regular expression to filter obviously invalid email
+CONSTRAINT email_formatting -- Using RegEx to filter obviously invalid email
+  CHECK(REGEXP_LIKE(Email, '^\S+@\S+$')),
+CONSTRAINT accbalance_check
+  CHECK(AccBalance >= 0),
+CONSTRAINT admin_boolean --SQL do not support boolean type: 0 = false, 1 = true
+  CHECK(Admin IN (0, 1))
 );
 
 CREATE TABLE Vehicle
@@ -31,9 +36,7 @@ CONSTRAINT profileid_foreignkey
   FOREIGN KEY (PROFILEID) REFERENCES PROFILE(PROFILEID)
   ON DELETE CASCADE,
 CONSTRAINT initial_seat_number
-  CHECK (NUMOFSEATS > 0),
-CONSTRAINT unique_owner_car
-  UNIQUE (PLATENO, PROFILEID)
+  CHECK (NUMOFSEATS > 0)
 );
 
 CREATE TABLE Trips
@@ -45,22 +48,22 @@ RIDING_COST INT NOT NULL,
 SEATS_AVAILABLE INT NOT NULL,
 TRIP_DATE DATE NOT NULL,
 PLATENO VARCHAR(16),
-PROFILEID INT,
 PRIMARY KEY (TRIPNO),
 CONSTRAINT vehicle_foreignkey_trips
-  FOREIGN KEY (PLATENO, PROFILEID) REFERENCES VEHICLE(PLATENO, PROFILEID)
+  FOREIGN KEY (PLATENO) REFERENCES VEHICLE(PLATENO)
   ON DELETE CASCADE,
 CONSTRAINT riding_cost_check
-  CHECK (RIDING_COST >= 0)
+  CHECK (RIDING_COST >= 0),
+CONSTRAINT seats_available_check
+  CHECK (SEATS_AVAILABLE >= 0)
 );
 
 CREATE TABLE Bookings
 (
-BNO int NOT NULL,
 PROFILEID int,
 TRIPID int,
-RECEIPTNO varchar(255) UNIQUE NOT NULL,
-PRIMARY KEY (BNO),
+RECEIPTNO varchar(16) UNIQUE NOT NULL,
+PRIMARY KEY (PROFILEID, TRIPID),
 CONSTRAINT tripid_foreignkey_bookings
   FOREIGN KEY (TRIPID) REFERENCES TRIPS(TRIPNO)
   ON DELETE CASCADE,
@@ -70,8 +73,7 @@ CONSTRAINT profileid_foreignkey_bookings
 );
 
 /*********************************************************
- * Corresponding sequences defined for the above tables'
- * primary key
+ * Corresponding sequences defined for the above tables' primary key
  *********************************************************/
 CREATE SEQUENCE seq_profile
 MINVALUE 1
@@ -82,14 +84,6 @@ NOCYCLE
 CACHE 10;
 
 CREATE SEQUENCE seq_trips
-MINVALUE 1
-START WITH 1
-INCREMENT BY 1
-NOMAXVALUE
-NOCYCLE
-CACHE 10;
-
-CREATE SEQUENCE seq_bookings
 MINVALUE 1
 START WITH 1
 INCREMENT BY 1
@@ -121,14 +115,6 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE TRIGGER trigger_bookings
-  BEFORE INSERT ON Bookings
-  FOR EACH ROW
-BEGIN
-  :new.bno := seq_bookings.nextval;
-END;
-/
-
 CREATE OR REPLACE TRIGGER trigger_trips
   BEFORE INSERT ON Trips
   FOR EACH ROW
@@ -137,7 +123,7 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE TRIGGER trigger_booking_invoice
+CREATE OR REPLACE TRIGGER trigger_booking
   BEFORE INSERT ON Bookings
   FOR EACH ROW
 BEGIN
@@ -146,9 +132,8 @@ END;
 /
 
 /*********************************************************
- * Trigger: Ensure that date of birth entered is neither in
- * the future, nor too far in the past.
- *
+ * Trigger as constraints
+
  * Note: CHECK is not used as CHECK constraints must be deterministic.
  * As SYSDATE is inherently non-deterministic, TRIGGER are used instead.
  * Source: http://stackoverflow.com/questions/8424900/check-constraint-on-date-of-birth
@@ -179,26 +164,6 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE TRIGGER trigger_seat_avail_check
-  BEFORE INSERT OR UPDATE ON Trips
-  FOR EACH ROW
-BEGIN
-  IF ( :new.seats_available < 0 ) THEN
-    RAISE_APPLICATION_ERROR( -20004, 'Seats available is a negative number' );
-  END IF;
-END;
-/
-
-CREATE OR REPLACE TRIGGER trigger_acct_balance_check
-  BEFORE INSERT OR UPDATE ON Profile
-  FOR EACH ROW
-BEGIN
-  IF ( :new.accbalance < 0 ) THEN
-    RAISE_APPLICATION_ERROR( -20005, 'Account balance is a negative number!' );
-  END IF;
-END;
-/
-
 /*********************************************************
  * Views
  *********************************************************/
@@ -211,8 +176,9 @@ CREATE OR REPLACE VIEW SearchQuery AS
          TO_CHAR(T.Trip_Date, 'DD-Mon-YY') AS Trip_Date,
          TO_CHAR(T.Trip_Date, 'HH24:MI') AS Trip_Time,
          (P.FirstName || ' ' || P.LastName) AS Driver
-  FROM Trips T, Profile P
-  WHERE T.ProfileID = P.ProfileID;
+  FROM Trips T, Vehicle V, Profile P
+  WHERE T.PlateNo = V.PlateNo AND
+        V.ProfileID = P.ProfileID;
 
 CREATE OR REPLACE VIEW PendingRide AS
   SELECT Driver.ProfileID AS Driver_ID,
@@ -230,8 +196,8 @@ CREATE OR REPLACE VIEW PendingRide AS
          V.PlateNo AS PlateNo,
          V.Model AS Model
   FROM Bookings B, Trips T, Profile Passenger, Profile Driver, Vehicle V
-  WHERE Driver.ProfileID = T.ProfileID AND
-        T.PlateNo = V.PlateNo AND
+  WHERE T.PlateNo = V.PlateNo AND
+        V.ProfileID = Driver.ProfileID AND
         T.TripNo = B.TripID AND
         B.ProfileID = Passenger.ProfileID;
 
@@ -245,8 +211,13 @@ CREATE OR REPLACE PROCEDURE BookingTransaction (PassengerID IN INT, TripNumber I
       TripCost INT;
     BEGIN
       --Retrive values
-      SELECT AccBalance INTO PassengerAcctBalance FROM Profile WHERE ProfileID = PassengerID;
-      SELECT ProfileID, Seats_Available, Riding_Cost INTO DriverID, SeatsAvail, TripCost FROM Trips WHERE TripNo = TripNumber;
+      SELECT AccBalance INTO PassengerAcctBalance
+        FROM Profile WHERE ProfileID = PassengerID;
+      SELECT P.ProfileID, T.Seats_Available, T.Riding_Cost INTO DriverID, SeatsAvail, TripCost
+        FROM Trips T, Vehicle V, Profile P
+        WHERE T.TripNo = TripNumber AND
+              T.PlateNo = V.PlateNo AND
+              V.ProfileID = P.ProfileID;
       --Set Savepoint
       SAVEPOINT Origin;
       -- Deduct amount from account balance
