@@ -55,9 +55,12 @@ $(document).on("click", "#confirm", function () {
   if (!dob) {
     isError = true;
     errorMsg += "\nNo date of birth";
+  } else if (!isValidDate(dob)) {
+    isError = true;
+    errorMsg += "\nInvalid birth date"
   } else if (isFutureDate(dob)) {
     isError = true;
-    errorMsg += "\nBirth date entered is a future date.";
+    errorMsg += "\nBirth date entered is a future date";
   } else if (isAge18Below(dob)) {
     isError = true;
     errorMsg += "\nAge under 18 is not allowed to register";
@@ -125,6 +128,26 @@ $(document).on("click", "#confirm", function () {
   function isNumeric(num) {
     return !isNaN(num);
   } 
+
+  function isValidDate(dob) {
+    try {
+      var birthday = new Date(Date.parse(dob));
+      var parts = dob.split('-');
+      var months = {
+      Jan: '1', Feb: '2', Mar: '3', Apr: '4', May: '5', Jun: '6',
+      Jul: '7', Aug: '8', Sep: '9', Oct: '10', Nov: '11', Dec: '12'
+      };
+      parts[1] = months[parts[1]];
+
+      if ((birthday.getMonth()+1) == parts[1] && birthday.getDate() == parts[0]) {
+        return true;
+      }
+
+    } catch (err) {
+      return false;
+    }
+    return false;
+  }
 
   function isFutureDate(dob) {
     var birthday = new Date(Date.parse(dob));
