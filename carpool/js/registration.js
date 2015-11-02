@@ -55,7 +55,13 @@ $(document).on("click", "#confirm", function () {
   if (!dob) {
     isError = true;
     errorMsg += "\nNo date of birth";
-  } 
+  } else if (isFutureDate(dob)) {
+    isError = true;
+    errorMsg += "\nBirth date entered is a future date.";
+  } else if (isAge18Below(dob)) {
+    isError = true;
+    errorMsg += "\nAge under 18 is not allowed to register";
+  }
 
   if (!contact) {
     isError = true;
@@ -118,7 +124,29 @@ $(document).on("click", "#confirm", function () {
 
   function isNumeric(num) {
     return !isNaN(num);
-  }      
+  } 
+
+  function isFutureDate(dob) {
+    var birthday = new Date(Date.parse(dob));
+    var diffms = Date.now() - birthday.getTime();
+
+    if (diffms < 0) {
+      return true;
+    }
+    return false;
+  }
+
+  function isAge18Below(dob) {
+    var birthday = new Date(Date.parse(dob));
+    var diffms = Date.now() - birthday.getTime();
+    var diffDate = new Date(diffms);
+    var diff = Math.abs(diffDate.getUTCFullYear() - 1970);
+
+    if (diff < 18) {
+      return true;
+    }
+    return false;
+  }
 
   var textField = "I, <b><u>" + firstname + " " + lastname + "</u></b>, confirm that the following information I have provided are true: " + "<br><hr>" +
    "<b>Email: </b>" + email + "<br>" +
