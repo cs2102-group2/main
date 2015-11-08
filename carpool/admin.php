@@ -73,9 +73,13 @@ include 'includes/navbarAdmin.php';
                 <td class="cardholdername">'.$row['CARDHOLDERNAME'].'</td>
                 <td class="accbalance">'.$row['ACCBALANCE'].'</td>
                 <td class="admin">'.$row['ADMIN'].'</td>
-                <td><a title="Edit" class="ui-icon ui-icon-pencil editProfileButton"></a></td>
-                <td><a title="Delete" class="ui-icon ui-icon-trash delProfileButton"></a></td>
-            </tr>';
+                <td><a title="Edit" class="ui-icon ui-icon-pencil editProfileButton"></a></td>';
+
+                if($row['PROFILEID'] != getProfileID()) {
+                    echo '<td><a title="Delete" class="ui-icon ui-icon-trash delProfileButton"></a></td>';
+                }
+
+            echo '</tr>';
         }
         oci_free_statement($result);
         ?>
