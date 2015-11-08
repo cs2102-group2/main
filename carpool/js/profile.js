@@ -21,6 +21,55 @@ window.onload = function() {
   });
 }
 
+//Create Vehicle Button
+$(document).on("click", ".createVehicleButton", function () {
+  //Set title
+  $("#editVehicleForm").dialog("option", "title", "Add Vehicle");
+  //Clear values
+  $("#editVehicleForm").dialog("open");
+  document.getElementById("idplateno").value="";
+  document.getElementById("idmodel").value="";
+  document.getElementById("idnumseats").value="";
+
+  var _profileid = $("#profileid").text().replace(/ /g,'');
+
+    //Check if modified
+  $("#editVehicleForm").dialog( "option", "buttons",
+    [
+      {
+        text: "Cancel",
+        click: function() {
+          $(this).dialog("close");
+          callback(false);
+        }
+       }, {
+        text: "Create",
+        //TODO
+        click: function() {
+          //Input validation
+
+          $.ajax({
+            url: "phpscript/createVehicle.php",
+            type: "POST",
+            data: {
+              //Note that "'" is used for non-integer/float values to encase it in single quotations
+              "profileid": _profileid,
+              "platenum": "'" + document.getElementById("idplateno").value + "'",
+              "model": "'" + document.getElementById("idmodel").value + "'",
+              "seatsnum": document.getElementById("idnumseats").value
+             },
+            success: function (result) { if(!result.error) location.reload(true); },
+            error: function(exception) { alert('Something went wrong with the transaction...'); }
+          });
+
+          $(this).dialog("close");
+          callback(false);
+        }
+      }
+    ]
+  );
+})
+
 //Edit Vehicle Button
 $(document).on("click", ".editVehicleButton", function () {
   //Retrieve values from row

@@ -73,7 +73,8 @@ include 'includes/navbar.php';
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><span title="Add" class="ui-icon ui-icon-plus"></span></td>
+                    <td><a title="Add" class="ui-icon ui-icon-plus createVehicleButton"></a></td>
+                    <div id="profileid" style="display: none;">'.getProfileID().'<div>
                     <td></td>
                 </tr>';
 
