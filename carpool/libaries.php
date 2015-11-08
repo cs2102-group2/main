@@ -15,6 +15,7 @@ function initSessionVar($row)
     $_SESSION["profileName"] = $row['FIRSTNAME'];
     $_SESSION["profileAccountBalance"] = $row['ACCBALANCE'];
     $_SESSION["profileCreditCardNo"] = $row['CREDITCARDNUM'];
+    $_SESSION["profileAdmin"] = $row['ADMIN'];
 }
 
 function logOut() {
@@ -50,6 +51,10 @@ function isUserLoggedIn() {
     else {
         return true;
     }
+}
+
+function isUserAdmin() {
+    return (isset($_SESSION["profileAdmin"]) && $_SESSION["profileAdmin"] == 1);
 }
 
 // ==============================================

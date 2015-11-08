@@ -10,6 +10,12 @@
     </ul>
     <section class="top-bar-section">
         <ul class="right">
+            <?php
+                if(isset($_SESSION["profileAdmin"]) && $_SESSION["profileAdmin"] == 1) {
+                    echo '<li class="has-form show-for-large-up"><a href="admin.php" class="button">ADMIN</a></li>';
+                    echo '<li class="divider"></li>';
+                }
+            ?>
             <li class="has-form show-for-large-up"><a href="payment.php" class="button">$</a></li>
             <li class="divider"></li>
             <li class="has-form show-for-large-up"><a href="search.php" class="button">FIND RIDE</a></li>

@@ -1,6 +1,12 @@
 <?php
 include 'libaries.php';
 include 'sqlconn.php'; // Connect to database
+
+//Redirect users without administrative rights
+if(isUserLoggedIn() == false || isUserAdmin() == false) {
+    redirectToHomePage();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
