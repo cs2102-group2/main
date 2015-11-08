@@ -10,9 +10,9 @@ include 'sqlconn.php'; // Connect to database
     <link rel="stylesheet" href="./foundation/css/foundation.css" />
     <link rel="stylesheet" href="./css/customise.css" />
 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <?php
+    include 'includes/datepicker.html';
+    ?>
 
     <script src="js/admin.js"></script>
 </head>
@@ -23,7 +23,7 @@ include 'includes/navbarAdmin.php';
 <div class="large-12 columns">
     <div id="profileDiv" class="large-12 left columns">
     <h3 class="white-font">Profiles</h3>
-    <table>
+    <table class="smaller-table">
         <tr>
             <th>ID</th>
             <th>Email</th>
@@ -37,11 +37,12 @@ include 'includes/navbarAdmin.php';
             <th>CSC</th>
             <th>Card Name</th>
             <th>Acct. Balance</th>
+            <th>Admin?</th>
             <th><a title="Create" class="ui-icon ui-icon-plus createProfileButton"></a></th>
         </tr>
         <?php
 
-        $query = "SELECT PROFILEID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME, POSTALCODE, CONTACTNUM, DATEOFBIRTH, CREDITCARDNUM, CARDSECURITYCODE, CARDHOLDERNAME, ACCBALANCE FROM PROFILE";
+        $query = "SELECT PROFILEID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME, POSTALCODE, CONTACTNUM, DATEOFBIRTH, CREDITCARDNUM, CARDSECURITYCODE, CARDHOLDERNAME, ACCBALANCE, ADMIN FROM PROFILE";
 
         $result = oci_parse($connect, $query);
 
@@ -65,6 +66,7 @@ include 'includes/navbarAdmin.php';
                 <td class="cardsecuritycode">'.$row['CARDSECURITYCODE'].'</td>
                 <td class="cardholdername">'.$row['CARDHOLDERNAME'].'</td>
                 <td class="accbalance">'.$row['ACCBALANCE'].'</td>
+                <td class="admin">'.$row['ADMIN'].'</td>
                 <td><a title="Edit" class="ui-icon ui-icon-pencil editProfileButton"></a></td>
                 <td><a title="Delete" class="ui-icon ui-icon-trash delProfileButton"></a></td>
             </tr>';
@@ -90,7 +92,7 @@ include 'includes/navbarAdmin.php';
     <label for="idcontact">Contact:</label>
     <input type="text" name="contact" id="idcontact">
     <label for="iddob">DOB:</label>
-    <input type="text" name="dob" id="iddob">
+    <input type="text" name="dob" id="iddob" class="datepicker">
     <label for="idcardno">Credit Card No:</label>
     <input type="text" name="cardno" id="idcardno">
     <label for="idcsc">Card Security No:</label>
@@ -99,6 +101,9 @@ include 'includes/navbarAdmin.php';
     <input type="text" name="csc" id="idcardname">
     <label for="idacct">Account Balance:</label>
     <input type="text" name="acct" id="idacct">
+    <label for="idacct">Admin:</label>
+    <input type="radio" name="admin" value="1"> Yes
+    <input type="radio" name="admin" value="0"> No
 </form>
 
 <div id="deleteProfileForm">
@@ -161,14 +166,13 @@ include 'includes/navbarAdmin.php';
     <h3 class="white-font">Bookings</h3>
     <table class="large-12 columns">
         <tr>
-            <th>S/N</th>
             <th>Profile ID (Owner)</th>
             <th>Trip ID</th>
             <th>Receipt ID</th>
             <th><a title="Create" class="ui-icon ui-icon-plus createBookingButton"></a></th>
         </tr><?php
 
-        $query = "SELECT BNO, PROFILEID, TRIPID, RECEIPTNO FROM BOOKINGS";
+        $query = "SELECT PROFILEID, TRIPID, RECEIPTNO FROM BOOKINGS";
 
         $result = oci_parse($connect, $query);
 
@@ -176,7 +180,6 @@ include 'includes/navbarAdmin.php';
         if($check == true) {
             while($row = oci_fetch_array($result)) {
                 echo '<tr>
-                <td class="bno">'.$row['BNO'].'</td>
                 <td class="profileid">'.$row['PROFILEID'].'</td>
                 <td class="tripid">'.$row['TRIPID'].'</td>
                 <td class="receiptno">'.$row['RECEIPTNO'].'</td>
@@ -192,8 +195,6 @@ include 'includes/navbarAdmin.php';
 </div>
 
 <form id="editBookingForm" >
-    <label for="idbno">Booking ID:</label>
-    <input type="text" name="platenum" id="idbno">
     <label for="idprofileid2">Profile ID (Ref):</label>
     <input type="text" name="profileid" id="idprofileid2">
     <label for="idtripid1">Trip ID (Ref):</label>
@@ -217,13 +218,13 @@ include 'includes/navbarAdmin.php';
             <th>Cost</th>
             <th>Seats Avail</th>
             <th>Date</th>
+            <th>Time</th>
             <th>Plate No</th>
-            <th>Profile ID</th>
             <th><a title="Create" class="ui-icon ui-icon-plus createTripButton"></a></th>
         </tr>
         <?php
 
-        $query = "SELECT TRIPNO, START_LOCATION, END_LOCATION, RIDING_COST, SEATS_AVAILABLE, TRIP_DATE, PLATENO, PROFILEID
+        $query = "SELECT TRIPNO, START_LOCATION, END_LOCATION, RIDING_COST, SEATS_AVAILABLE, TO_CHAR(Trip_Date, 'DD-Mon-YY') AS TRIP_DATE, TO_CHAR(Trip_Date, 'HH24:MI') AS TRIP_TIME, PLATENO
                   FROM TRIPS";
 
         $result = oci_parse($connect, $query);
@@ -238,8 +239,8 @@ include 'includes/navbarAdmin.php';
                 <td class="ridingcost">'.$row['RIDING_COST'].'</td>
                 <td class="seatsavailable">'.$row['SEATS_AVAILABLE'].'</td>
                 <td class="tripdate">'.$row['TRIP_DATE'].'</td>
+                <td class="triptime">'.$row['TRIP_TIME'].'</td>
                 <td class="plateno">'.$row['PLATENO'].'</td>
-                <td class="profileid">'.$row['PROFILEID'].'</td>
                 <td><a title="Edit" class="ui-icon ui-icon-pencil editTripButton"></a></td>
                 <td><a title="Delete" class="ui-icon ui-icon-trash delTripButton"></a></td>
             </tr>';
@@ -263,11 +264,11 @@ include 'includes/navbarAdmin.php';
     <label for="idseatsavail">Seats Available:</label>
     <input type="text" name="seatsavail" id="idseatsavail">
     <label for="idtripdate">Trip Date:</label>
-    <input type="text" name="tripdate" id="idtripdate">
+    <input type="text" name="tripdate" id="idtripdate" class="datepicker">
+    <label for="idtriptime">Trip Time:</label>
+    <input type="text" name="tripdate" id="idtriptime">
     <label for="idplateno1">Plate No:</label>
     <input type="text" name="plateno" id="idplateno1">
-    <label for="idprofileid3">Profile ID:</label>
-    <input type="text" name="profileid" id="idprofileid3">
 </form>
 
 <div id="deleteTripForm">

@@ -141,11 +141,11 @@ $(document).on("click", ".createProfileButton", function () {
   document.getElementById("idcsc").value="";
   document.getElementById("idcardname").value="";
   document.getElementById("idacct").value="";
+  $("input[name='admin'][value=0]").attr('checked', true);
 
   //Disable irrelevant textfield
   $("#idprofile").attr("disabled", "disabled");
 
-    //Check if modified
   $("#editProfileForm").dialog( "option", "buttons",
     [
       {
@@ -179,7 +179,8 @@ $(document).on("click", ".createProfileButton", function () {
               "creditcardnum": document.getElementById("idcardno").value,
               "csc": document.getElementById("idcsc").value,
               "cardholder": "'" + document.getElementById("idcardname").value + "'",
-              "acct": document.getElementById("idacct").value
+              "acct": document.getElementById("idacct").value,
+              "admin": $("input[name='admin']:checked").val()
              },
             success: function (result) { if(!result.error) location.reload(true); },
             error: function(exception) { alert('Something went wrong with the transaction...'); }
@@ -210,6 +211,7 @@ $(document).on("click", ".editProfileButton", function () {
   var _cardsecuritycode = $(this).closest("tr").find(".cardsecuritycode").text();
   var _cardholdername = $(this).closest("tr").find(".cardholdername").text();
   var _accbalance = $(this).closest("tr").find(".accbalance").text();
+  var _isadmin = $(this).closest("tr").find(".admin").text();
 
   //Pop up for user to enter value
   $("#editProfileForm").dialog("open");
@@ -225,6 +227,13 @@ $(document).on("click", ".editProfileButton", function () {
   document.getElementById("idcsc").value=_cardsecuritycode;
   document.getElementById("idcardname").value=_cardholdername;
   document.getElementById("idacct").value=_accbalance;
+
+  if(_isadmin === "1") {
+    $("input[name='admin'][value=1]").attr('checked', true);
+  } else {
+    $("input[name='admin'][value=0]").attr('checked', true);
+  }
+
 
   //Check if modified
   $("#editProfileForm").dialog( "option", "buttons",
@@ -249,7 +258,8 @@ $(document).on("click", ".editProfileButton", function () {
              document.getElementById("idcardno").value===_creditcardnum &&
              document.getElementById("idcsc").value===_cardsecuritycode &&
              document.getElementById("idcardname").value===_cardholdername &&
-             document.getElementById("idacct").value===_accbalance) {
+             document.getElementById("idacct").value===_accbalance &&
+             $('input[name="admin"]:checked').val()===_isadmin) {
             $(this).dialog("close");
             return;
           }
@@ -271,7 +281,8 @@ $(document).on("click", ".editProfileButton", function () {
               "creditcardnum": document.getElementById("idcardno").value,
               "csc": document.getElementById("idcsc").value,
               "cardholder": "'" + document.getElementById("idcardname").value + "'",
-              "acct": document.getElementById("idacct").value
+              "acct": document.getElementById("idacct").value,
+              "admin": $("input[name='admin']:checked").val()
              },
             success: function (result) { if(!result.error) location.reload(true); },
             error: function(exception) { alert('Something went wrong with the transaction...'); }
@@ -473,7 +484,6 @@ $(document).on("click", ".createBookingButton", function () {
   $("#editBookingForm").dialog("option", "title", "Create Booking");
   //Clear values
   $("#editBookingForm").dialog("open");
-  document.getElementById("idbno").value="";
   document.getElementById("idprofileid2").value="";
   document.getElementById("idtripid1").value="";
   document.getElementById("idreceiptno").value="";
@@ -527,14 +537,12 @@ $(document).on("click", ".editBookingButton", function () {
   //Set title
   $("#editBookingForm").dialog("option", "title", "Edit Booking");
   //Retrieve values from row
-  var _bno = $(this).closest("tr").find(".bno").text();
   var _profileid = $(this).closest("tr").find(".profileid").text();
   var _tripid = $(this).closest("tr").find(".tripid").text();
   var _receiptno = $(this).closest("tr").find(".receiptno").text();
 
   //Pop up for user to enter value
   $("#editBookingForm").dialog("open");
-  document.getElementById("idbno").value=_bno;
   document.getElementById("idprofileid2").value=_profileid;
   document.getElementById("idtripid1").value=_tripid;
   document.getElementById("idreceiptno").value=_receiptno;
@@ -551,8 +559,7 @@ $(document).on("click", ".editBookingButton", function () {
        }, {
         text: "Submit",
         click: function() {
-          if( document.getElementById("idbno").value===_bno &&
-              document.getElementById("idprofileid2").value===_profileid &&
+          if(document.getElementById("idprofileid2").value===_profileid &&
               document.getElementById("idtripid1").value===_tripid &&
               document.getElementById("idreceiptno").value===_receiptno) {
             $(this).dialog("close");
@@ -564,13 +571,12 @@ $(document).on("click", ".editBookingButton", function () {
             type: "POST",
             data: {
               //Note that "'" is used for non-integer/float values to encase it in single quotations
-              "id": _bno,
-              "bno": document.getElementById("idbno").value,
+              "id": "'" + _receiptno + "'",
               "profileid": document.getElementById("idprofileid2").value,
               "tripid": document.getElementById("idtripid1").value,
               "receiptno": "'" + document.getElementById("idreceiptno").value + "'"
              },
-            success: function (result) { if(!result.error) alert(result); /*location.reload(true);*/ },
+            success: function (result) { if(!result.error) location.reload(true); },
             error: function(exception) { alert('Something went wrong with the transaction...'); }
           });
 
@@ -583,8 +589,8 @@ $(document).on("click", ".editBookingButton", function () {
 })
 
 $(document).on("click", ".delBookingButton", function () {
-  var _bno = $(this).closest("tr").find(".bno").text();
-  var textField = "Are you sure you want to delete Booking #" + _bno + "?";
+  var _receiptno = $(this).closest("tr").find(".receiptno").text();
+  var textField = "Are you sure you want to delete Booking #" + _receiptno + "?";
   $("#deleteBookingText").text(textField);
   $("#deleteBookingText").css({"font-size":"12px"});
 
@@ -603,7 +609,7 @@ $(document).on("click", ".delBookingButton", function () {
         $.ajax({
           url: "phpscript/deleteBooking.php",
           type: "POST",
-          data: {"id": _bno },
+          data: {"id": _receiptno },
           success: function (result) { if(!result.error) location.reload(true); },
           error: function(exception) { alert("Something went wrong with the transaction..."); }
         });
@@ -631,8 +637,8 @@ $(document).on("click", ".createTripButton", function () {
   document.getElementById("idcost").value="";
   document.getElementById("idseatsavail").value="";
   document.getElementById("idtripdate").value="";
+  document.getElementById("idtriptime").value="";
   document.getElementById("idplateno1").value="";
-  document.getElementById("idprofileid3").value="";
 
   $("#idtripno2").attr("disabled", "disabled");
 
@@ -663,9 +669,9 @@ $(document).on("click", ".createTripButton", function () {
               "endloc": "'" + document.getElementById("idendlocation").value + "'",
               "ridingcost": document.getElementById("idcost").value,
               "seatsavail": document.getElementById("idseatsavail").value,
-              "tripdate": "'" + document.getElementById("idtripdate").value + "'",
-              "plateno": "'" + document.getElementById("idplateno1").value + "'",
-              "profileid": document.getElementById("idprofileid3").value
+              "tripdate": document.getElementById("idtripdate").value,
+              "triptime": document.getElementById("idtriptime").value,
+              "plateno": "'" + document.getElementById("idplateno1").value + "'"
              },
             success: function (result) { if(!result.error) location.reload(true); },
             error: function(exception) { alert('Something went wrong with the transaction...'); }
@@ -690,6 +696,7 @@ $(document).on("click", ".editTripButton", function () {
   var _ridingcost = $(this).closest("tr").find(".ridingcost").text();
   var _seatsavailable = $(this).closest("tr").find(".seatsavailable").text();
   var _tripdate = $(this).closest("tr").find(".tripdate").text();
+  var _triptime = $(this).closest("tr").find(".triptime").text();
   var _plateno = $(this).closest("tr").find(".plateno").text();
   var _profileid = $(this).closest("tr").find(".profileid").text();
 
@@ -701,8 +708,8 @@ $(document).on("click", ".editTripButton", function () {
   document.getElementById("idcost").value=_ridingcost;
   document.getElementById("idseatsavail").value=_seatsavailable;
   document.getElementById("idtripdate").value=_tripdate;
+  document.getElementById("idtriptime").value=_triptime;
   document.getElementById("idplateno1").value=_plateno;
-  document.getElementById("idprofileid3").value=_profileid;
 
   //Check if modified
   $("#editTripForm").dialog( "option", "buttons",
@@ -722,8 +729,8 @@ $(document).on("click", ".editTripButton", function () {
               document.getElementById("idcost").value===_ridingcost &&
               document.getElementById("idseatsavail").value===_seatsavailable &&
               document.getElementById("idtripdate").value===_tripdate &&
-              document.getElementById("idplateno1").value===_plateno &&
-              document.getElementById("idprofileid3").value===_profileid) {
+              document.getElementById("idtriptime").value===_triptime &&
+              document.getElementById("idplateno1").value===_plateno) {
             $(this).dialog("close");
             return;
           }
@@ -739,11 +746,11 @@ $(document).on("click", ".editTripButton", function () {
               "endloc": "'" + document.getElementById("idendlocation").value + "'",
               "ridingcost": document.getElementById("idcost").value,
               "seatsavail": document.getElementById("idseatsavail").value,
-              "tripdate": "'" + document.getElementById("idtripdate").value + "'",
-              "plateno": "'" + document.getElementById("idplateno1").value + "'",
-              "profileid": document.getElementById("idprofileid3").value
+              "tripdate": document.getElementById("idtripdate").value,
+              "triptime": document.getElementById("idtriptime").value,
+              "plateno": "'" + document.getElementById("idplateno1").value + "'"
              },
-            success: function (result) { if(!result.error) alert(result); /*location.reload(true);*/ },
+            success: function (result) { if(!result.error) location.reload(true); },
             error: function(exception) { alert('Something went wrong with the transaction...'); }
           });
 

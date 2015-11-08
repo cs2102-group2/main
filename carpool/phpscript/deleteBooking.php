@@ -5,9 +5,9 @@
 
   if (isset($_POST["id"])) {
     //json_decode for numerical type, otherwise refrain from json_decode for varchar/non-numerical type
-    $id = json_decode($_POST["id"]);
+    $id = $_POST["id"];
 
-    $query = "DELETE FROM BOOKINGS WHERE BNO = ".$id;
+    $query = "DELETE FROM BOOKINGS WHERE RECEIPTNO = ".$id;
 
     $result = oci_parse($connect, $query);
     $check = oci_execute($result, OCI_DEFAULT);

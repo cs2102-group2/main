@@ -41,6 +41,10 @@ background: #21E2CE;
   line-height: 1px;
 }
 
+.smaller-table * {
+  font-size: 12px;
+}
+
 #availCarpool, #userCurrency {
   font-size: 30px;
 }

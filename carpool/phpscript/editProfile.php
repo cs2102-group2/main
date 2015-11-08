@@ -18,6 +18,7 @@
     $csc = json_decode($_POST["csc"]);
     $cardholder = $_POST["cardholder"];
     $acct = $_POST["acct"];
+    $admin = json_decode($_POST["admin"]);
 
     $query = "UPDATE PROFILE
               SET PROFILEID = ".$profileid.",
@@ -31,7 +32,8 @@
                   CREDITCARDNUM =  ".$creditcardnum.",
                   CARDSECURITYCODE = ".$csc.",
                   CARDHOLDERNAME = ".$cardholder.",
-                  ACCBALANCE = ".$acct."
+                  ACCBALANCE = ".$acct.",
+                  ADMIN = ".$admin."
               WHERE PROFILEID = ".$id;
 
     $result = oci_parse($connect, $query);
