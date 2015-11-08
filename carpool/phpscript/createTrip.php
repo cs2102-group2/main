@@ -12,7 +12,7 @@
     $tripdate = "'".$_POST["tripdate"]." ".$_POST["triptime"]."'";
     $plateno = $_POST["plateno"];
 
-    $query = "INSERT INTO (Start_Location, End_Location, Riding_Cost, Seats_Available, Trip_Date, PlateNo) VALUES (".$startloc.", ".$endloc.", ".$ridingcost.", ".$seatsavail.", TO_DATE(".$tripdate.", 'DD-MM-YY HH24:MI'), ".$plateno.")";
+    $query = "INSERT INTO (Start_Location, End_Location, Riding_Cost, Seats_Available, Trip_Date, PlateNo) VALUES (".$startloc.", ".$endloc.", ".$ridingcost.", ".$seatsavail.", TO_DATE(".$tripdate.", 'DD-Mon-YY HH24:MI'), ".$plateno.")";
 
     $result = oci_parse($connect, $query);
     $check = oci_execute($result, OCI_DEFAULT);

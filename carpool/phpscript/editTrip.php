@@ -20,7 +20,7 @@
                   END_LOCATION = ".$endloc.",
                   RIDING_COST = ".$ridingcost.",
                   SEATS_AVAILABLE = ".$seatsavail.",
-                  TRIP_DATE = TO_DATE(".$tripdate.", 'DD-MM-YY HH24:MI'),
+                  TRIP_DATE = TO_DATE(".$tripdate.", 'DD-Mon-YY HH24:MI'),
                   PLATENO = ".$plateno."
               WHERE TRIPNO = ".$id;
 
