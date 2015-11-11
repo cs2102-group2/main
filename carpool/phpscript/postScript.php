@@ -13,8 +13,8 @@ if (isset($_POST['startlocation']) && isset($_POST['endlocation']) && isset($_PO
     $plateno = strtoupper($_POST['plateno']);
     $numOfSeats = intval(json_decode($_POST['numOfSeats']));
 
-    $query = "INSERT INTO TRIPS(START_LOCATION, END_LOCATION, RIDING_COST, SEATS_AVAILABLE, TRIP_DATE, PLATENO, PROFILEID)
-    VALUES(".$startlocation.",".$endlocation.",".$price.",".$numOfSeats.",(TO_DATE(".$tripdate.",'DD-Mon-YY HH24:MI')),".$plateno.",".getProfileID().")";
+    $query = "INSERT INTO TRIPS(START_LOCATION, END_LOCATION, RIDING_COST, SEATS_AVAILABLE, TRIP_DATE, PLATENO)
+    VALUES(".$startlocation.",".$endlocation.",".$price.",".$numOfSeats.",(TO_DATE(".$tripdate.",'DD-Mon-YY HH24:MI')),".$plateno.")";
 
     $result = oci_parse($connect, $query);
     $check = oci_execute($result, OCI_DEFAULT);
