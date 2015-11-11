@@ -73,7 +73,7 @@ $(document).on("click", ".createVehicleButton", function () {
 //Edit Vehicle Button
 $(document).on("click", ".editVehicleButton", function () {
   //Retrieve values from row
-  var _plateno = String.trim($(this).closest("tr").find(".plateno").text());
+  var _plateno = $(this).closest("tr").find(".plateno").text();
   var _model = $(this).closest("tr").find(".model").text();
   var _numofseats = $(this).closest("tr").find(".numofseats").text();
 
